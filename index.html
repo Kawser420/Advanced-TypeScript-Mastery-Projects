@@ -53,6 +53,7 @@
             background: rgba(255, 255, 255, 0.95);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
         }
 
         .nav-hidden {
@@ -90,6 +91,7 @@
             height: 100%;
             display: flex;
             flex-direction: column;
+            cursor: pointer;
         }
 
         .feature-card:hover {
@@ -299,6 +301,7 @@
             padding: 0.75rem;
             border-radius: 1rem;
             line-height: 1.4;
+            font-size: 0.9rem;
         }
 
         .user-message {
@@ -310,7 +313,7 @@
 
         .bot-message {
             background: #f1f5f9;
-            color: #1e293b; /* Changed from var(--neutral) to a darker blue-gray for better readability */
+            color: #1e293b;
             align-self: flex-start;
             border-bottom-left-radius: 0.25rem;
         }
@@ -321,7 +324,7 @@
             border-radius: 0.25rem;
             font-family: 'Fira Code', monospace;
             font-size: 0.85em;
-            color: #1e293b; /* Ensure code has good contrast too */
+            color: #1e293b;
         }
 
         .chat-input {
@@ -338,7 +341,8 @@
             border-radius: 0.375rem;
             outline: none;
             transition: border-color 0.2s;
-            color: #1e293b; /* Ensure input text is readable */
+            color: whitesmoke;
+            font-size: 0.9rem;
         }
 
         .chat-input input:focus {
@@ -569,6 +573,51 @@
         /* Smooth scrolling for the entire page */
         html {
             scroll-behavior: smooth;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            height: 4px;
+            background-color: #e5e7eb;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .progress-bar-value {
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary);
+            animation: indeterminateAnimation 1s infinite linear;
+            transform-origin: 0% 50%;
+        }
+
+        @keyframes indeterminateAnimation {
+            0% {
+                transform:  translateX(0) scaleX(0);
+            }
+            40% {
+                transform:  translateX(0) scaleX(0.4);
+            }
+            100% {
+                transform:  translateX(100%) scaleX(0.5);
+            }
         }
     </style>
 </head>
@@ -883,10 +932,72 @@
               </div>
             </div>
           </div>
+
+          <!-- Feature 10 -->
+          <div
+            class="feature-card card bg-base-100 shadow-xl border border-gray-100"
+            onclick="showArticle(9)"
+          >
+            <div class="card-body">
+              <div
+                class="w-12 h-12 rounded-full bg-cyan-100 flex items-center justify-center mb-4"
+              >
+                <i class="fas fa-tools text-cyan-500 text-xl"></i>
+              </div>
+              <h3 class="card-title text-gray-800">Utility Types</h3>
+              <p class="text-gray-600">
+                Use built-in utility types like Partial, Required, Pick, and Omit for common type transformations.
+              </p>
+              <div class="card-actions justify-end">
+                <button class="btn btn-ghost btn-sm text-cyan-500">Learn more</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 11 -->
+          <div
+            class="feature-card card bg-base-100 shadow-xl border border-gray-100"
+            onclick="showArticle(10)"
+          >
+            <div class="card-body">
+              <div
+                class="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center mb-4"
+              >
+                <i class="fas fa-brain text-rose-500 text-xl"></i>
+              </div>
+              <h3 class="card-title text-gray-800">Type Inference</h3>
+              <p class="text-gray-600">
+                Understand how TypeScript infers types and how to work with contextual typing.
+              </p>
+              <div class="card-actions justify-end">
+                <button class="btn btn-ghost btn-sm text-rose-500">Learn more</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 12 -->
+          <div
+            class="feature-card card bg-base-100 shadow-xl border border-gray-100"
+            onclick="showArticle(11)"
+          >
+            <div class="card-body">
+              <div
+                class="w-12 h-12 rounded-full bg-lime-100 flex items-center justify-center mb-4"
+              >
+                <i class="fas fa-file-alt text-lime-500 text-xl"></i>
+              </div>
+              <h3 class="card-title text-gray-800">Declaration Files</h3>
+              <p class="text-gray-600">
+                Create and use declaration files to add type information to JavaScript libraries.
+              </p>
+              <div class="card-actions justify-end">
+                <button class="btn btn-ghost btn-sm text-lime-500">Learn more</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-
 
     <!-- Articles Section -->
     <section id="articles" class="py-16 bg-gray-50">
@@ -2135,6 +2246,682 @@ const className = styles.myClass;
               </div>
             </div>
           </div>
+
+          <!-- Article 10: Utility Types -->
+          <div class="article bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+            <div
+              class="article-header p-6 border-b cursor-pointer bg-gray-50"
+              onclick="toggleArticle(9)"
+            >
+              <h3
+                class="text-xl font-semibold text-gray-800 flex justify-between items-center"
+              >
+                <span>Utility Types in TypeScript</span>
+                <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+              </h3>
+            </div>
+            <div class="article-content">
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  TypeScript provides several built-in utility types that facilitate common type transformations. 
+                  These utilities are available globally and can be extremely helpful for everyday TypeScript development.
+                </p>
+                <pre
+                  class="bg-gray-800 text-white p-4 rounded-lg mb-4"
+                ><code class="language-typescript">// Partial<T> - Make all properties in T optional
+interface Todo {
+    title: string;
+    description: string;
+}
+
+function updateTodo(todo: Todo, fieldsToUpdate: Partial<Todo>) {
+    return { ...todo, ...fieldsToUpdate };
+}
+
+const todo1 = {
+    title: "Learn TypeScript",
+    description: "Study utility types"
+};
+
+const todo2 = updateTodo(todo1, {
+    description: "Study advanced TypeScript features"
+});
+
+// Required<T> - Make all properties in T required
+interface Props {
+    a?: number;
+    b?: string;
+}
+
+const obj: Props = { a: 5 }; // OK
+const obj2: Required<Props> = { a: 5, b: "hello" }; // Error: Property 'b' is missing
+
+// Readonly<T> - Make all properties in T readonly
+interface Todo {
+    title: string;
+}
+
+const todo: Readonly<Todo> = {
+    title: "Delete inactive users"
+};
+
+todo.title = "Hello"; // Error: cannot assign to readonly property
+
+// Record<K, T> - Construct a type with a set of properties K of type T
+interface CatInfo {
+    age: number;
+    breed: string;
+}
+
+type CatName = "miffy" | "boris" | "mordred";
+
+const cats: Record<CatName, CatInfo> = {
+    miffy: { age: 10, breed: "Persian" },
+    boris: { age: 5, breed: "Maine Coon" },
+    mordred: { age: 16, breed: "British Shorthair" }
+};
+
+// Pick<T, K> - From T, pick a set of properties whose keys are in the union K
+interface Todo {
+    title: string;
+    description: string;
+    completed: boolean;
+}
+
+type TodoPreview = Pick<Todo, "title" | "completed">;
+
+const todo: TodoPreview = {
+    title: "Clean room",
+    completed: false
+};
+
+// Omit<T, K> - From T, remove a set of properties whose keys are in the union K
+interface Todo {
+    title: string;
+    description: string;
+    completed: boolean;
+    createdAt: number;
+}
+
+type TodoPreview = Omit<Todo, "description">;
+
+const todo: TodoPreview = {
+    title: "Clean room",
+    completed: false,
+    createdAt: 1615544252770
+};
+
+type TodoInfo = Omit<Todo, "completed" | "createdAt">;
+
+const todoInfo: TodoInfo = {
+    title: "Pick up kids",
+    description: "Kindergarten closes at 5pm"
+};
+
+// Exclude<T, U> - Exclude from T those types that are assignable to U
+type T0 = Exclude<"a" | "b" | "c", "a">; // "b" | "c"
+type T1 = Exclude<string | number | (() => void), Function>; // string | number
+
+// Extract<T, U> - Extract from T those types that are assignable to U
+type T0 = Extract<"a" | "b" | "c", "a" | "f">; // "a"
+type T1 = Extract<string | number | (() => void), Function>; // () => void
+
+// NonNullable<T> - Exclude null and undefined from T
+type T0 = NonNullable<string | number | undefined>; // string | number
+type T1 = NonNullable<string[] | null | undefined>; // string[]
+
+// Parameters<T> - Obtain the parameters of a function type in a tuple
+declare function f1(arg: { a: number; b: string }): void;
+
+type T0 = Parameters<() => string>; // []
+type T1 = Parameters<(s: string) => void>; // [string]
+type T2 = Parameters<<T>(arg: T) => T>; // [unknown]
+type T3 = Parameters<typeof f1>; // [{ a: number; b: string }]
+
+// ReturnType<T> - Obtain the return type of a function type
+declare function f1(): { a: number; b: string };
+
+type T0 = ReturnType<() => string>; // string
+type T1 = ReturnType<(s: string) => void>; // void
+type T2 = ReturnType<<T>() => T>; // unknown
+type T3 = ReturnType<<T extends U, U extends number[]>() => T>; // number[]
+type T4 = ReturnType<typeof f1>; // { a: number; b: string }
+
+// InstanceType<T> - Obtain the instance type of a constructor function type
+class C {
+    x = 0;
+    y = 0;
+}
+
+type T0 = InstanceType<typeof C>; // C
+type T1 = InstanceType<any>; // any
+type T2 = InstanceType<never>; // never
+
+// ThisType<T> - Marker for contextual 'this' type
+interface ObjectDescriptor<D, M> {
+    data?: D;
+    methods?: M & ThisType<D & M>; // Type of 'this' in methods is D & M
+}
+
+function makeObject<D, M>(desc: ObjectDescriptor<D, M>): D & M {
+    let data: object = desc.data || {};
+    let methods: object = desc.methods || {};
+    return { ...data, ...methods } as D & M;
+}
+
+let obj = makeObject({
+    data: { x: 0, y: 0 },
+    methods: {
+        moveBy(dx: number, dy: number) {
+            this.x += dx; // Strongly typed this
+            this.y += dy; // Strongly typed this
+        }
+    }
+});
+
+obj.x = 10;
+obj.y = 20;
+obj.moveBy(5, 5);
+
+// Uppercase<StringType>, Lowercase<StringType>, Capitalize<StringType>, Uncapitalize<StringType>
+type Greeting = "Hello, world";
+type ShoutyGreeting = Uppercase<Greeting>; // "HELLO, WORLD"
+
+type ASCIICacheKey<Str extends string> = `ID-${Uppercase<Str>}`;
+type MainID = ASCIICacheKey<"my_app">; // "ID-MY_APP"
+
+type QuietGreeting = Lowercase<Greeting>; // "hello, world"
+
+type LowercaseGreeting = "hello, world";
+type Greeting = Capitalize<LowercaseGreeting>; // "Hello, world"
+
+type UppercaseGreeting = "HELLO WORLD";
+type UncomfortableGreeting = Uncapitalize<UppercaseGreeting>; // "hELLO WORLD"</code></pre>
+                <p class="text-gray-600">
+                  Utility types are one of TypeScript's most powerful features, allowing developers to perform complex type transformations 
+                  with minimal code. They're particularly useful for creating flexible APIs, managing state shapes, and ensuring type safety 
+                  across large codebases. By mastering these utility types, you can write more maintainable and robust TypeScript code.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 11: Type Inference -->
+          <div class="article bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+            <div
+              class="article-header p-6 border-b cursor-pointer bg-gray-50"
+              onclick="toggleArticle(10)"
+            >
+              <h3
+                class="text-xl font-semibold text-gray-800 flex justify-between items-center"
+              >
+                <span>Type Inference in TypeScript</span>
+                <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+              </h3>
+            </div>
+            <div class="article-content">
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  TypeScript's type inference system automatically determines types when they're not explicitly annotated. 
+                  Understanding how type inference works can help you write cleaner code while maintaining type safety.
+                </p>
+                <pre
+                  class="bg-gray-800 text-white p-4 rounded-lg mb-4"
+                ><code class="language-typescript">// Basic type inference
+let x = 3; // TypeScript infers type 'number'
+let y = "hello"; // TypeScript infers type 'string'
+let z = [0, 1, null]; // TypeScript infers type '(number | null)[]'
+
+// Contextual typing
+window.onmousedown = function(mouseEvent) {
+    console.log(mouseEvent.button); // OK
+    console.log(mouseEvent.kangaroo); // Error: Property 'kangaroo' does not exist on type 'MouseEvent'
+};
+
+// Best common type
+let zoo = [new Rhino(), new Elephant(), new Snake()];
+// TypeScript infers type (Rhino | Elephant | Snake)[]
+
+// Contextual typing also applies to return types
+// The return type of the following function is inferred as number
+function add(a: number, b: number) {
+    return a + b;
+}
+
+// Object literal inference
+const person = {
+    name: "John",
+    age: 30
+}; // TypeScript infers { name: string; age: number; }
+
+// Function type inference
+const names = ["Alice", "Bob", "Eve"];
+
+// Contextual typing applies to arrow function parameters
+names.forEach(function(s) {
+    console.log(s.toUpperCase()); // s is inferred as string
+});
+
+// Also applies to arrow functions
+names.forEach(s => console.log(s.toUpperCase())); // s is inferred as string
+
+// Return type inference based on usage
+// The return type is inferred as number[]
+function mapNumbers(numbers: number[]) {
+    return numbers.map(x => x * 2);
+}
+
+// Type inference in generics
+function identity<T>(arg: T): T {
+    return arg;
+}
+
+let output = identity("myString"); // type of output is string - T is inferred as string
+
+// Multiple type arguments inference
+function mapArray<T, U>(arr: T[], fn: (x: T) => U): U[] {
+    return arr.map(fn);
+}
+
+const lengths = mapArray(["hello", "world"], s => s.length); // T inferred as string, U inferred as number
+
+// Const contexts
+// Type is { name: string; age: number; }
+const person1 = {
+    name: "John",
+    age: 30
+};
+
+// Type is { readonly name: "John"; readonly age: 30; }
+const person2 = {
+    name: "John",
+    age: 30
+} as const;
+
+// Type inference with conditional types
+type IsString<T> = T extends string ? true : false;
+
+type A = IsString<string>; // true
+type B = IsString<number>; // false
+
+// Inference in conditional types with infer keyword
+type GetReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
+
+type Num = GetReturnType<() => number>; // number
+type Str = GetReturnType<(x: string) => string>; // string
+type Bools = GetReturnType<(a: boolean, b: boolean) => boolean[]>; // boolean[]
+
+// Inference in template literal types
+type EventName<T extends string> = `${T}Changed`;
+type Concat<S1 extends string, S2 extends string> = `${S1}${S2}`;
+
+type T0 = EventName<'foo'>; // 'fooChanged'
+type T1 = Concat<'Hello', 'World'>; // 'HelloWorld'
+
+// Type inference best practices
+// 1. Let TypeScript infer types when possible
+// Instead of:
+const array: number[] = [1, 2, 3];
+// Prefer:
+const array = [1, 2, 3]; // TypeScript infers number[]
+
+// 2. Use explicit types for public API boundaries
+interface User {
+    id: number;
+    name: string;
+}
+
+function getUser(id: number): User {
+    // function implementation
+}
+
+// 3. Use const assertions for literal values
+// Instead of:
+const colors = ['red', 'green', 'blue']; // string[]
+// Prefer:
+const colors = ['red', 'green', 'blue'] as const; // readonly ["red", "green", "blue"]
+
+// 4. Understand when to use type annotations vs inference
+// Use annotations for:
+// - Function parameters
+// - Object literals that need specific shapes
+// - Variables that will be reassigned to different types
+
+// Use inference for:
+// - Most variable declarations
+// - Function return types (unless complex)
+// - Array and object literals
+
+// Advanced inference example
+type DeepPartial<T> = T extends object ? {
+    [P in keyof T]?: DeepPartial<T[P]>;
+} : T;
+
+interface Company {
+    name: string;
+    address: {
+        street: string;
+        city: string;
+    };
+}
+
+const company: DeepPartial<Company> = {
+    address: {
+        city: "San Francisco"
+    }
+};</code></pre>
+                <p class="text-gray-600">
+                  TypeScript's type inference is sophisticated and can handle most common programming patterns. 
+                  By understanding how inference works, you can strike the right balance between explicit type annotations 
+                  and letting TypeScript do the work for you. This leads to cleaner, more maintainable code without sacrificing type safety.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 12: Declaration Files -->
+          <div class="article bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+            <div
+              class="article-header p-6 border-b cursor-pointer bg-gray-50"
+              onclick="toggleArticle(11)"
+            >
+              <h3
+                class="text-xl font-semibold text-gray-800 flex justify-between items-center"
+              >
+                <span>Working with Declaration Files</span>
+                <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+              </h3>
+            </div>
+            <div class="article-content">
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  Declaration files (with .d.ts extension) allow you to describe the shape of existing JavaScript code, 
+                  enabling TypeScript to provide type checking and editor support for JavaScript libraries.
+                </p>
+                <pre
+                  class="bg-gray-800 text-white p-4 rounded-lg mb-4"
+                ><code class="language-typescript">// Basic declaration file structure
+// types.d.ts
+declare interface User {
+    id: number;
+    name: string;
+    email: string;
+}
+
+declare function getUser(id: number): User;
+declare function createUser(user: User): number;
+
+// Global declarations
+// globals.d.ts
+declare namespace MyGlobal {
+    function utilityFunction(): void;
+    const importantValue: number;
+}
+
+// Using global declarations
+MyGlobal.utilityFunction();
+console.log(MyGlobal.importantValue);
+
+// Module declarations for JavaScript libraries
+// my-library.d.ts
+declare module "my-library" {
+    export function doSomething(): void;
+    export const importantValue: number;
+    export interface Options {
+        timeout: number;
+        retries: number;
+    }
+}
+
+// Using the module declaration
+import { doSomething, importantValue } from "my-library";
+
+doSomething();
+console.log(importantValue);
+
+// Ambient module declarations for non-code resources
+declare module "*.css" {
+    const content: { [className: string]: string };
+    export default content;
+}
+
+declare module "*.png" {
+    const value: string;
+    export default value;
+}
+
+// Using ambient modules
+import styles from "./App.css";
+import logo from "./logo.png";
+
+const className = styles.myClass;
+const imgSrc = logo;
+
+// Declaring global variables
+// globals.d.ts
+declare const __VERSION__: string;
+declare const __DEV__: boolean;
+
+// Using global variables
+console.log(`App version: ${__VERSION__}`);
+if (__DEV__) {
+    console.log("Running in development mode");
+}
+
+// Augmenting existing types
+// augmentations.d.ts
+declare global {
+    interface Window {
+        myCustomFunction: () => void;
+        customProperty: string;
+    }
+
+    interface Date {
+        format(pattern: string): string;
+    }
+}
+
+// Using augmented types
+window.myCustomFunction();
+console.log(window.customProperty);
+
+const today = new Date();
+console.log(today.format("YYYY-MM-DD"));
+
+// Module augmentation for existing modules
+// observable.d.ts
+import { Observable } from "./observable";
+
+declare module "./observable" {
+    interface Observable<T> {
+        map<U>(f: (x: T) => U): Observable<U>;
+    }
+}
+
+// Using the augmented module
+Observable.prototype.map = function (f) {
+    // implementation
+};
+
+// Conditional exports in declaration files
+// library.d.ts
+declare module "library" {
+    export function func1(): void;
+    export function func2(): void;
+
+    export namespace Advanced {
+        export function advancedFunc(): void;
+    }
+}
+
+// Using conditional exports
+import { func1, Advanced } from "library";
+
+func1();
+Advanced.advancedFunc();
+
+// Declaration merging
+// interfaces.d.ts
+interface User {
+    id: number;
+    name: string;
+}
+
+interface User {
+    email: string;
+    age?: number;
+}
+
+// The merged User interface has:
+// id: number, name: string, email: string, age?: number
+
+// Using declaration merging
+const user: User = {
+    id: 1,
+    name: "John",
+    email: "john@example.com"
+};
+
+// Namespace and function merging
+function buildLabel(name: string): string {
+    return buildLabel.prefix + name + buildLabel.suffix;
+}
+
+namespace buildLabel {
+    export let suffix = "";
+    export let prefix = "Hello, ";
+}
+
+console.log(buildLabel("John Smith")); // "Hello, John Smith"
+
+// Class and namespace merging
+class Album {
+    label: Album.AlbumLabel;
+}
+
+namespace Album {
+    export class AlbumLabel {}
+}
+
+// Creating declaration files for existing JavaScript
+// jquery.d.ts
+declare namespace JQuery {
+    interface AjaxSettings {
+        url: string;
+        method?: string;
+        data?: any;
+    }
+
+    function ajax(settings: AjaxSettings): void;
+}
+
+// Using the jQuery declarations
+JQuery.ajax({
+    url: "/api/data",
+    method: "GET"
+});
+
+// Using triple-slash directives
+/// <reference types="node" />
+/// <reference path="custom-types.d.ts" />
+
+import * as fs from "fs";
+
+// The fs module now has type information from @types/node
+
+// Writing declaration files for complex libraries
+// complex-library.d.ts
+declare namespace ComplexLibrary {
+    interface Config {
+        apiKey: string;
+        endpoint: string;
+        timeout?: number;
+    }
+
+    function initialize(config: Config): void;
+
+    namespace Services {
+        interface UserService {
+            getUsers(): Promise<User[]>;
+            getUser(id: number): Promise<User>;
+        }
+
+        function getUserService(): UserService;
+    }
+
+    interface User {
+        id: number;
+        name: string;
+        email: string;
+    }
+
+    type EventCallback = (data: any) => void;
+
+    function on(event: string, callback: EventCallback): void;
+    function off(event: string, callback: EventCallback): void;
+}
+
+// Using the complex library
+ComplexLibrary.initialize({
+    apiKey: "abc123",
+    endpoint: "https://api.example.com"
+});
+
+const userService = ComplexLibrary.Services.getUserService();
+userService.getUsers().then(users => {
+    console.log(users);
+});
+
+// Best practices for declaration files
+// 1. Use precise types instead of any when possible
+// Instead of:
+declare function processData(data: any): any;
+// Prefer:
+declare function processData<T>(data: T): T;
+
+// 2. Use union types for fixed sets of values
+declare type Status = "pending" | "in-progress" | "completed" | "failed";
+
+// 3. Use optional properties for optional parameters
+interface Options {
+    required: boolean;
+    timeout?: number;
+    retries?: number;
+}
+
+// 4. Use function overloads for different parameter patterns
+declare function createElement(tag: "div"): HTMLDivElement;
+declare function createElement(tag: "span"): HTMLSpanElement;
+declare function createElement(tag: string): HTMLElement;
+
+// 5. Use generics for reusable type patterns
+declare interface ApiResponse<T> {
+    data: T;
+    status: number;
+    message: string;
+}
+
+// 6. Document your types with JSDoc comments
+/**
+ * Represents a user in the system
+ * @property id - The unique identifier for the user
+ * @property name - The user's full name
+ * @property email - The user's email address
+ */
+interface User {
+    id: number;
+    name: string;
+    email: string;
+}</code></pre>
+                <p class="text-gray-600">
+                  Declaration files are essential for using JavaScript libraries in TypeScript projects. 
+                  They enable type safety, autocompletion, and documentation for existing JavaScript code. 
+                  By mastering declaration files, you can improve the development experience for any library 
+                  and ensure type safety across your entire codebase, even when working with untyped JavaScript.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -2415,7 +3202,7 @@ console.log(processInput(3.14159));</textarea>
           run: (input) => {
             try {
               const parsedInput = isNaN(input) ? input : Number(input);
-              return processInput(parformedInput);
+              return processInput(parsedInput);
             } catch (e) {
               return "Error: " + e.message;
             }
@@ -2601,7 +3388,7 @@ console.log(calc.add(5, 3));`,
         // Update tabs
         const tabs = document.querySelectorAll(".tab");
         tabs.forEach((tab, i) => {
-          if (i === currentExample) {
+          if (i === index - 1) {
             tab.classList.add("tab-active");
           } else {
             tab.classList.remove("tab-active");
@@ -2622,42 +3409,47 @@ console.log(calc.add(5, 3));`,
       function compileCode() {
         const code = document.getElementById("typescript-code").value;
         const outputElement = document.getElementById("output-code");
+        
+        // Show loading state
+        outputElement.innerHTML = '<span class="spinner"></span> Compiling...';
 
-        try {
-          // Use the TypeScript compiler API for better compilation
-          const result = window.ts.transpileModule(code, {
-            compilerOptions: {
-              target: window.ts.ScriptTarget.ES2015,
-              module: window.ts.ModuleKind.CommonJS,
-              strict: true,
-              experimentalDecorators: true
-            }
-          });
-          
-          const compiledCode = result.outputText;
-
-          // Capture console.log output
-          const originalLog = console.log;
-          let output = "";
-          console.log = function (message) {
-            output += message + "\n";
-          };
-
-          // Execute the code
+        setTimeout(() => {
           try {
-            eval(compiledCode);
-          } catch (e) {
-            output = "Runtime error: " + e.message;
+            // Use the TypeScript compiler API for better compilation
+            const result = window.ts.transpileModule(code, {
+              compilerOptions: {
+                target: window.ts.ScriptTarget.ES2015,
+                module: window.ts.ModuleKind.CommonJS,
+                strict: true,
+                experimentalDecorators: true
+              }
+            });
+            
+            const compiledCode = result.outputText;
+
+            // Capture console.log output
+            const originalLog = console.log;
+            let output = "";
+            console.log = function (message) {
+              output += message + "\n";
+            };
+
+            // Execute the code
+            try {
+              eval(compiledCode);
+            } catch (e) {
+              output = "Runtime error: " + e.message;
+            }
+
+            // Restore console.log
+            console.log = originalLog;
+
+            outputElement.textContent =
+              output || "Code executed successfully (no output)";
+          } catch (error) {
+            outputElement.textContent = "Compilation error: " + error.message;
           }
-
-          // Restore console.log
-          console.log = originalLog;
-
-          outputElement.textContent =
-            output || "Code executed successfully (no output)";
-        } catch (error) {
-          outputElement.textContent = "Compilation error: " + error.message;
-        }
+        }, 500);
       }
 
       // Format code in the editor
@@ -2825,9 +3617,21 @@ console.log(calc.add(5, 3));`,
         else if (lowerMessage.includes('module') || lowerMessage.includes('namespace') || lowerMessage.includes('import')) {
           return `Modules and namespaces help organize code. Modules are file-based and use import/export. Namespaces are used to group related code and avoid global scope pollution. Example module: <code>export function add(x: number, y: number) { return x + y; }</code>. Example namespace: <code>namespace Geometry { export function area() { ... } }</code>.`;
         }
+        // Utility types
+        else if (lowerMessage.includes('utility') || lowerMessage.includes('partial') || lowerMessage.includes('pick') || lowerMessage.includes('omit')) {
+          return `Utility types are built-in type transformations in TypeScript. Common ones include Partial&lt;T&gt; (makes all properties optional), Required&lt;T&gt; (makes all properties required), Pick&lt;T, K&gt; (selects specific properties), and Omit&lt;T, K&gt; (removes specific properties). For example: <code>type PartialUser = Partial&lt;User&gt;;</code>`;
+        }
+        // Type inference
+        else if (lowerMessage.includes('inference') || lowerMessage.includes('infer') || lowerMessage.includes('automatic')) {
+          return `Type inference allows TypeScript to automatically determine types when they're not explicitly annotated. TypeScript can infer types from variable initialization, function return values, and contextual information. For example: <code>let x = 3; // TypeScript infers type 'number'</code>.`;
+        }
+        // Declaration files
+        else if (lowerMessage.includes('declaration') || lowerMessage.includes('.d.ts') || lowerMessage.includes('type definition')) {
+          return `Declaration files (with .d.ts extension) describe the shape of existing JavaScript code, enabling TypeScript to provide type checking for JavaScript libraries. They use the declare keyword to describe types that exist at runtime. For example: <code>declare function myLibraryFunction(): void;</code>`;
+        }
         // Hello
         else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
-          return `Hello! I'm your TypeScript assistant. Ask me about TypeScript features like union types, generics, type guards, optional chaining, type assertions, decorators, advanced types, or modules and namespaces.`;
+          return `Hello! I'm your TypeScript assistant. Ask me about TypeScript features like union types, generics, type guards, optional chaining, type assertions, decorators, advanced types, modules and namespaces, utility types, type inference, or declaration files.`;
         } 
         // Default response
         else {
@@ -2841,6 +3645,9 @@ console.log(calc.add(5, 3));`,
             <li>Decorators</li>
             <li>Advanced types</li>
             <li>Modules and namespaces</li>
+            <li>Utility types</li>
+            <li>Type inference</li>
+            <li>Declaration files</li>
           </ul>`;
         }
       }
