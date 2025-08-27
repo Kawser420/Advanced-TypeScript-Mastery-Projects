@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced TypeScript Showcase</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/typescript@latest/lib/typescriptServices.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #3b82f6;
+        --primary-dark: #2563eb;
+        --secondary: #8b5cf6;
+        --accent: #ec4899;
+        --neutral: #1f2937;
+        --base: #f9fafb;
+      }
+      
+      .code-block {
+        font-size: 0.9rem;
+      }
+      .feature-card {
+        transition: all 0.3s ease;
+      }
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      }
+      .tab-active {
+        border-bottom: 3px solid var(--primary);
+        font-weight: bold;
+      }
+      .article-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out;
+      }
+      .article-content.show {
+        max-height: 5000px;
+      }
+      .nav-hidden {
+        transform: translateY(-100%);
+      }
+      .nav-visible {
+        transform: translateY(0);
+      }
+      #mobile-menu {
+        transition: transform 0.3s ease-in-out;
+      }
+      
+      /* Code Editor Styles */
+      .editor-container {
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+      
+      .editor-header {
+        background-color: #2d3748;
+        color: white;
+        padding: 0.75rem 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .editor-body {
+        position: relative;
+      }
+      
+      /* Chatbot Styles */
+      .chatbot-container {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 100;
+      }
+      
+      .chatbot-button {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: var(--primary);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        transition: all 0.3s ease;
+      }
+      
+      .chatbot-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 16px rgba(59, 130, 246, 0.5);
+      }
+      
+      .chatbot-window {
+        position: absolute;
+        bottom: 70px;
+        right: 0;
+        width: 350px;
+        height: 450px;
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(20px);
+        pointer-events: none;
+        transition: all 0.3s ease;
+      }
+      
+      .chatbot-window.open {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: all;
+      }
+      
+      .chat-header {
+        background: var(--primary);
+        color: white;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .chat-messages {
+        flex: 1;
+        padding: 1rem;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      
+      .message {
+        max-width: 80%;
+        padding: 0.75rem;
+        border-radius: 1rem;
+      }
+      
+      .user-message {
+        background: var(--primary);
+        color: white;
+        align-self: flex-end;
+        border-bottom-right-radius: 0.25rem;
+      }
+      
+      .bot-message {
+        background: #f1f5f9;
+        color: var(--neutral);
+        align-self: flex-start;
+        border-bottom-left-radius: 0.25rem;
+      }
+      
+      .chat-input {
+        display: flex;
+        padding: 0.75rem;
+        border-top: 1px solid #e2e8f0;
+      }
+      
+      .chat-input input {
+        flex: 1;
+        padding: 0.75rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.375rem;
+        margin-right: 0.5rem;
+      }
+      
+      /* Gradient backgrounds */
+      .gradient-bg {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      
+      .gradient-bg-alt {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+      
+      /* Custom animations */
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      
+      .animate-fadeIn {
+        animation: fadeIn 0.5s ease forwards;
+      }
+      
+      /* Loading animation for chatbot */
+      .typing-animation {
+        display: flex;
+        padding: 0.75rem;
+      }
+      
+      .typing-animation span {
+        height: 8px;
+        width: 8px;
+        background: #cbd5e0;
+        border-radius: 50%;
+        margin: 0 2px;
+        animation: typing 1s infinite ease-in-out;
+      }
+      
+      .typing-animation span:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      
+      .typing-animation span:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+      
+      @keyframes typing {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav
+      id="navbar"
+      class="bg-white shadow-sm fixed top-0 w-full z-50 transition-transform duration-300 nav-visible"
+    >
+      <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center py-4">
+          <div class="flex items-center space-x-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              class="text-blue-500"
+            >
+              <path
+                fill="currentColor"
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm-1 15l-5-5l1.41-1.41L10 14.17l7.59-7.59L19 8l-8 8z"
+              />
+            </svg>
+            <span class="text-xl font-bold text-gray-800"
+              >Advanced TypeScript</span
+            >
+          </div>
+          <div class="hidden md:flex space-x-6">
+            <a
+              href="#features"
+              class="text-gray-600 hover:text-blue-500 transition-colors"
+              >Features</a
+            >
+            <a
+              href="#examples"
+              class="text-gray-600 hover:text-blue-500 transition-colors"
+              >Examples</a
+            >
+            <a
+              href="#tryit"
+              class="text-gray-600 hover:text-blue-500 transition-colors"
+              >Try It</a
+            >
+            <a
+              href="#articles"
+              class="text-gray-600 hover:text-blue-500 transition-colors"
+              >Articles</a
+            >
+          </div>
+          <button id="mobile-menu-button" class="btn btn-ghost md:hidden" onclick="toggleMobileMenu()">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div
+      id="mobile-menu"
+      class="md:hidden fixed top-16 left-0 w-full bg-white shadow-lg z-40 transform -translate-y-full transition-transform duration-300"
+    >
+      <div class="flex flex-col p-4 space-y-3">
+        <a
+          href="#features"
+          class="text-gray-600 hover:text-blue-500 transition-colors py-2"
+          onclick="toggleMobileMenu()"
+          >Features</a
+        >
+        <a
+          href="#examples"
+          class="text-gray-600 hover:text-blue-500 transition-colors py-2"
+          onclick="toggleMobileMenu()"
+          >Examples</a
+        >
+        <a
+          href="#tryit"
+          class="text-gray-600 hover:text-blue-500 transition-colors py-2"
+          onclick="toggleMobileMenu()"
+          >Try It</a
+        >
+        <a
+          href="#articles"
+          class="text-gray-600 hover:text-blue-500 transition-colors py-2"
+          onclick="toggleMobileMenu()"
+          >Articles</a
+        >
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16 gradient-bg text-white">
+      <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">
+          Explore Advanced TypeScript Features
+        </h1>
+        <p class="text-xl opacity-90 max-w-2xl mx-auto mb-8">
+          Explore advanced TypeScript features and patterns with interactive examples, AI assistance, and professional code editor.
+        </p>
+        <div class="flex justify-center space-x-4">
+          <a href="#tryit" class="btn btn-primary bg-white text-blue-600 hover:bg-gray-100">Try Examples</a>
+          <a href="#features" class="btn btn-outline text-white border-white hover:bg-white hover:text-blue-600">Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">
+          TypeScript Features
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div
+            class="feature-card card bg-base-100 shadow-xl border border-gray-100"
+            onclick="showArticle(0)"
+          >
+            <div class="card-body">
+              <div
+                class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-4"
+              >
+                <i class="fas fa-code-branch text-blue-500 text-xl"></i>
+              </div>
+              <h3 class="card-title text-gray-800">Union Types</h3>
+              <p class="text-gray-600">
+                Combine multiple types into one, allowing variables to accept different types of values.
+              </p>
+              <div class="card-actions justify-end">
+                <button class="btn btn-ghost btn-sm text-blue-500">Learn more</button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="feature-card card bg-base-100 shadow-xl border border-gray-100"
+            onclick="showArticle(1)"
+          >
+            <div class="card-body">
+              <div
+                class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-4"
+              >
+                <i class="fas fa-shield-alt text-green-500 text-xl"></i>
+              </div>
+              <h3 class="card-title text-gray-800">Type Guards</h3>
+              <p class="text-gray-600">
+                Narrow down types with conditional checks, ensuring type safety at runtime.
+              </p>
+              <div class="card-actions justify-end">
+                <button class="btn btn-ghost btn-sm text-green-500">Learn more</button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="feature-card card bg-base-100 shadow-xl border border-gray-100"
+            onclick="showArticle(2)"
+          >
+            <div class="card-body">
+              <div
+                class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-4"
+              >
+                <i class="fas fa-link text-purple-500 text-xl"></i>
+              </div>
+              <h3 class="card-title text-gray-800">Optional Chaining</h3>
+              <p class="text-gray-600">
+                Safely access nested properties without worrying about null or undefined values.
+              </p>
+              <div class="card-actions justify-end">
+                <button class="btn btn-ghost btn-sm text-purple-500">Learn more</button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="feature-card card bg-base-100 shadow-xl border border-gray-100"
+            onclick="showArticle(3)"
+          >
+            <div class="card-body">
+              <div
+                class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mb-4"
+              >
+                <i class="fas fa-cogs text-yellow-500 text-xl"></i>
+              </div>
+              <h3 class="card-title text-gray-800">Generics</h3>
+              <p class="text-gray-600">
+                Create reusable components that work with multiple types while maintaining type information.
+              </p>
+              <div class="card-actions justify-end">
+                <button class="btn btn-ghost btn-sm text-yellow-500">Learn more</button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="feature-card card bg-base-100 shadow-xl border border-gray-100"
+            onclick="showArticle(4)"
+          >
+            <div class="card-body">
+              <div
+                class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mb-4"
+              >
+                <i class="fas fa-check-circle text-red-500 text-xl"></i>
+              </div>
+              <h3 class="card-title text-gray-800">Type Assertions</h3>
+              <p class="text-gray-600">
+                Tell the compiler to treat a value as a specific type, useful when you know more about the type.
+              </p>
+              <div class="card-actions justify-end">
+                <button class="btn btn-ghost btn-sm text-red-500">Learn more</button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="feature-card card bg-base-100 shadow-xl border border-gray-100"
+            onclick="showArticle(5)"
+          >
+            <div class="card-body">
+              <div
+                class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mb-4"
+              >
+                <i class="fas fa-filter text-indigo-500 text-xl"></i>
+              </div>
+              <h3 class="card-title text-gray-800">Type Predicates</h3>
+              <p class="text-gray-600">
+                Create functions that perform runtime checks and narrow types in conditional blocks.
+              </p>
+              <div class="card-actions justify-end">
+                <button class="btn btn-ghost btn-sm text-indigo-500">Learn more</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Articles Section -->
+    <section id="articles" class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">
+          TypeScript Articles
+        </h2>
+
+        <div class="space-y-6 max-w-4xl mx-auto">
+          <!-- Article 1: Union Types -->
+          <div class="article bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+            <div
+              class="article-header p-6 border-b cursor-pointer bg-gray-50"
+              onclick="toggleArticle(0)"
+            >
+              <h3
+                class="text-xl font-semibold text-gray-800 flex justify-between items-center"
+              >
+                <span>Understanding Union Types in TypeScript</span>
+                <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+              </h3>
+            </div>
+            <div class="article-content">
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  Union types are a powerful way to express a value that can be one of several types. 
+                  You define a union type using the pipe character (<code>|</code>) between types.
+                </p>
+                <pre
+                  class="bg-gray-800 text-white p-4 rounded-lg mb-4"
+                ><code class="language-typescript">// Defining a union type
+type ID = string | number;
+
+// Function that accepts a union type
+function printID(id: ID) {
+    if (typeof id === "string") {
+        console.log(id.toUpperCase());
+    } else {
+        console.log(id.toFixed(2));
+    }
+}
+
+printID("abc123"); // Output: ABC123
+printID(123.456);  // Output: 123.46
+
+// More complex union type
+type Status = "pending" | "in-progress" | "completed" | "failed";
+
+function handleStatus(status: Status) {
+    switch(status) {
+        case "pending":
+            return "Task is waiting to start";
+        case "in-progress":
+            return "Task is currently running";
+        case "completed":
+            return "Task finished successfully";
+        case "failed":
+            return "Task encountered an error";
+    }
+}
+
+console.log(handleStatus("in-progress")); // Output: Task is currently running</code></pre>
+                <p class="text-gray-600">
+                  Union types are particularly useful when working with values that might come in different forms, 
+                  such as API responses where a field could be a string, number, or null. They allow TypeScript to 
+                  provide better type checking and enable autocompletion based on the possible types.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 2: Type Guards -->
+          <div class="article bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+            <div
+              class="article-header p-6 border-b cursor-pointer bg-gray-50"
+              onclick="toggleArticle(1)"
+            >
+              <h3
+                class="text-xl font-semibold text-gray-800 flex justify-between items-center"
+              >
+                <span>Type Guards for Runtime Safety</span>
+                <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+              </h3>
+            </div>
+            <div class="article-content">
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  Type guards are expressions that perform runtime checks to guarantee the type of a value within a specific scope. 
+                  They help you write type-safe code even when dealing with dynamic data.
+                </p>
+                <pre
+                  class="bg-gray-800 text-white p-4 rounded-lg mb-4"
+                ><code class="language-typescript">// Type guard using typeof
+function isString(value: any): value is string {
+    return typeof value === "string";
+}
+
+// Type guard using instance checks
+function isDate(value: any): value is Date {
+    return value instanceof Date;
+}
+
+// Custom type guard
+interface Bird {
+    fly(): void;
+    layEggs(): void;
+}
+
+interface Fish {
+    swim(): void;
+    layEggs(): void;
+}
+
+function isBird(pet: Bird | Fish): pet is Bird {
+    return (pet as Bird).fly !== undefined;
+}
+
+function move(pet: Bird | Fish) {
+    if (isBird(pet)) {
+        pet.fly();
+    } else {
+        pet.swim();
+    }
+}
+
+// Using "in" operator for type guards
+function calculateArea(shape: Circle | Square): number {
+    if ('radius' in shape) {
+        // TypeScript knows shape is Circle here
+        return Math.PI * shape.radius ** 2;
+    } else {
+        // TypeScript knows shape is Square here
+        return shape.sideLength ** 2;
+    }
+}
+
+// User-defined type guards with validation
+function isValidEmail(value: any): value is string {
+    return typeof value === "string" && 
+           value.includes("@") && 
+           value.length > 5;
+}
+
+const userInput = "test@example.com";
+if (isValidEmail(userInput)) {
+    // TypeScript knows userInput is a valid email string
+    console.log(`Sending email to ${userInput}`);
+}</code></pre>
+                <p class="text-gray-600">
+                  Type guards are essential for working with union types and ensuring your code is both flexible and type-safe. 
+                  They allow TypeScript's compiler to narrow down types based on conditional checks, providing better autocompletion 
+                  and error detection.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 3: Optional Chaining -->
+          <div class="article bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+            <div
+              class="article-header p-6 border-b cursor-pointer bg-gray-50"
+              onclick="toggleArticle(2)"
+            >
+              <h3
+                class="text-xl font-semibold text-gray-800 flex justify-between items-center"
+              >
+                <span>Optional Chaining and Nullish Coalescing</span>
+                <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+              </h3>
+            </div>
+            <div class="article-content">
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  Optional chaining (<code>?.</code>) and nullish coalescing (<code>??</code>) are modern JavaScript features that 
+                  TypeScript fully supports. They make working with nested properties and default values much cleaner.
+                </p>
+                <pre
+                  class="bg-gray-800 text-white p-4 rounded-lg mb-4"
+                ><code class="language-typescript">interface User {
+    name: string;
+    address?: {
+        street: string;
+        city: string;
+        zipcode?: string;
+    };
+    preferences?: {
+        notifications?: {
+            email?: boolean;
+            sms?: boolean;
+        }
+    }
+}
+
+const user: User = {
+    name: "John Doe",
+    // address is optional and might be undefined
+};
+
+// Without optional chaining
+const city = user.address && user.address.city;
+
+// With optional chaining (much cleaner!)
+const cityWithChaining = user.address?.city;
+
+// Nullish coalescing for default values
+const zipcode = user.address?.zipcode ?? "00000";
+
+console.log(city); // Output: undefined
+console.log(cityWithChaining); // Output: undefined
+console.log(zipcode); // Output: 00000
+
+// Deep optional chaining
+const wantsEmailNotifications = user.preferences?.notifications?.email ?? true;
+
+// Optional chaining with function calls
+const someObject: { method?: () => string } = {};
+const result = someObject.method?.(); // Returns undefined if method doesn't exist
+
+// Combining with nullish coalescing
+const output = someObject.method?.() ?? "default value";
+
+// Optional element access
+const firstItem = someArray?.[0];
+
+// Practical example with API responses
+interface ApiResponse {
+    data?: {
+        user?: {
+            name: string;
+            age: number;
+            friends?: string[];
+        }
+    }
+}
+
+function processApiResponse(response: ApiResponse) {
+    const userName = response.data?.user?.name ?? "Unknown User";
+    const friendCount = response.data?.user?.friends?.length ?? 0;
+    
+    console.log(`${userName} has ${friendCount} friends`);
+}</code></pre>
+                <p class="text-gray-600">
+                  These features help eliminate verbose null/undefined checks and make your code more readable and maintainable. 
+                  Optional chaining short-circuits and returns undefined if any part of the chain is null or undefined, while 
+                  nullish coalescing provides default values only when the left-hand side is null or undefined.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 4: Generics -->
+          <div class="article bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+            <div
+              class="article-header p-6 border-b cursor-pointer bg-gray-50"
+              onclick="toggleArticle(3)"
+            >
+              <h3
+                class="text-xl font-semibold text-gray-800 flex justify-between items-center"
+              >
+                <span>Understanding Generics in TypeScript</span>
+                <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+              </h3>
+            </div>
+            <div class="article-content">
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  Generics allow you to create reusable components that can work with multiple types while maintaining type information. 
+                  They provide a way to create functions, classes, and interfaces that can work with any type, but with type safety.
+                </p>
+                <pre
+                  class="bg-gray-800 text-white p-4 rounded-lg mb-4"
+                ><code class="language-typescript">// Basic generic function
+function identity<T>(arg: T): T {
+    return arg;
+}
+
+let output1 = identity<string>("myString"); // type of output will be 'string'
+let output2 = identity<number>(100); // type of output will be 'number'
+
+// Generic interfaces
+interface GenericIdentityFn<T> {
+    (arg: T): T;
+}
+
+function identity<T>(arg: T): T {
+    return arg;
+}
+
+let myIdentity: GenericIdentityFn<number> = identity;
+
+// Generic classes
+class GenericNumber<T> {
+    zeroValue: T;
+    add: (x: T, y: T) => T;
+}
+
+let myGenericNumber = new GenericNumber<number>();
+myGenericNumber.zeroValue = 0;
+myGenericNumber.add = function(x, y) { return x + y; };
+
+// Generic constraints
+interface Lengthwise {
+    length: number;
+}
+
+function loggingIdentity<T extends Lengthwise>(arg: T): T {
+    console.log(arg.length); // Now we know it has a .length property
+    return arg;
+}
+
+// Using type parameters in generic constraints
+function getProperty<T, K extends keyof T>(obj: T, key: K) {
+    return obj[key];
+}
+
+let x = { a: 1, b: 2, c: 3, d: 4 };
+getProperty(x, "a"); // okay
+getProperty(x, "m"); // error
+
+// Generic utility types
+interface Todo {
+    title: string;
+    description: string;
+    completed: boolean;
+}
+
+// Partial makes all properties optional
+function updateTodo(todo: Todo, fieldsToUpdate: Partial<Todo>) {
+    return { ...todo, ...fieldsToUpdate };
+}
+
+// Readonly makes all properties readonly
+const todo: Readonly<Todo> = {
+    title: "Delete inactive users",
+    description: "...",
+    completed: false
+};
+
+// Record creates a type with specified keys and value type
+const pages: Record<string, { title: string }> = {
+    home: { title: "Home" },
+    about: { title: "About" },
+    contact: { title: "Contact" }
+};</code></pre>
+                <p class="text-gray-600">
+                  Generics are one of the most powerful features in TypeScript. They enable you to create flexible and reusable code 
+                  while maintaining full type safety. By using generics, you can avoid the pitfalls of the "any" type while still 
+                  writing code that works with multiple data types.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 5: Type Assertions -->
+          <div class="article bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+            <div
+              class="article-header p-6 border-b cursor-pointer bg-gray-50"
+              onclick="toggleArticle(4)"
+            >
+              <h3
+                class="text-xl font-semibold text-gray-800 flex justify-between items-center"
+              >
+                <span>Type Assertions in TypeScript</span>
+                <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+              </h3>
+            </div>
+            <div class="article-content">
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  Type assertions are a way to tell the compiler "trust me, I know what I'm doing." They are like type casts in other languages 
+                  but perform no special checking or restructuring of data. They have no runtime impact and are used purely by the TypeScript compiler.
+                </p>
+                <pre
+                  class="bg-gray-800 text-white p-4 rounded-lg mb-4"
+                ><code class="language-typescript">// Basic type assertion
+let someValue: any = "this is a string";
+let strLength: number = (someValue as string).length;
+
+// Alternative syntax (angle-bracket)
+let strLength2: number = (<string>someValue).length;
+
+// Type assertion with objects
+interface Employee {
+    name: string;
+    code: number;
+}
+
+let employee = {} as Employee;
+employee.name = "John"; // OK
+employee.code = 123; // OK
+
+// Asserting with complex types
+let someArray: any[] = [1, true, "free"];
+let firstElement = someArray[0] as number;
+
+// Double assertions
+let someValue2: unknown = "hello world";
+let strLength3: number = (someValue2 as string).length;
+
+// Const assertions
+let x = "hello" as const; // type is "hello" (not string)
+let y = [10, 20] as const; // type is readonly [10, 20]
+let z = { text: "hello" } as const; // type is { readonly text: "hello" }
+
+// Type assertion functions
+function assertIsNumber(val: any): asserts val is number {
+    if (typeof val !== "number") {
+        throw new Error("Not a number!");
+    }
+}
+
+function multiply(x: any, y: any) {
+    assertIsNumber(x);
+    assertIsNumber(y);
+    // Now TypeScript knows x and y are numbers
+    return x * y;
+}
+
+// When to use type assertions
+// 1. When you know more about the type than TypeScript does
+const canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
+
+// 2. When migrating from JavaScript to TypeScript
+const person = {} as Person;
+person.name = "Alice";
+person.age = 30;
+
+// 3. When working with union types
+let padding: string | number;
+// Later in code...
+let paddingPx = (padding as number) + "px";
+
+// 4. With incomplete initialization
+interface ApiResponse {
+    data: {
+        user: {
+            id: number;
+            name: string;
+        }
+    }
+}
+
+// We know the response will have this structure
+const response = {} as ApiResponse;
+
+// Dangerous examples (avoid when possible)
+const value = "hello" as any as number; // Double assertion to force type
+const element = document.getElementById("root") as any as HTMLElement;</code></pre>
+                <p class="text-gray-600">
+                  Type assertions should be used sparingly and only when you have more information about the type than TypeScript can infer. 
+                  While they can be useful, overusing type assertions can defeat the purpose of using TypeScript in the first place, as they 
+                  essentially tell the compiler to skip type checking.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 6: Type Predicates -->
+          <div class="article bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+            <div
+              class="article-header p-6 border-b cursor-pointer bg-gray-50"
+              onclick="toggleArticle(5)"
+            >
+              <h3
+                class="text-xl font-semibold text-gray-800 flex justify-between items-center"
+              >
+                <span>Type Predicates in TypeScript</span>
+                <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+              </h3>
+            </div>
+            <div class="article-content">
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  Type predicates are special functions that return a boolean and have a type predicate as their return type. 
+                  They are used to narrow down types within conditional blocks and are more powerful than simple boolean checks.
+                </p>
+                <pre
+                  class="bg-gray-800 text-white p-4 rounded-lg mb-4"
+                ><code class="language-typescript">// Basic type predicate
+function isString(test: any): test is string {
+    return typeof test === "string";
+}
+
+function example(foo: any) {
+    if (isString(foo)) {
+        // foo is type string in this block
+        console.log(foo.length);
+    }
+}
+
+// Type predicate with interfaces
+interface Cat {
+    meow(): void;
+}
+
+interface Dog {
+    bark(): void;
+}
+
+function isCat(animal: Cat | Dog): animal is Cat {
+    return (animal as Cat).meow !== undefined;
+}
+
+function letAnimalSpeak(animal: Cat | Dog) {
+    if (isCat(animal)) {
+        animal.meow();
+    } else {
+        animal.bark();
+    }
+}
+
+// Type predicates with classes
+class Success {
+    constructor(public data: string[]) {}
+}
+
+class Failure {
+    constructor(public error: string) {}
+}
+
+function isSuccess(result: Success | Failure): result is Success {
+    return result instanceof Success;
+}
+
+function handleResult(result: Success | Failure) {
+    if (isSuccess(result)) {
+        console.log(result.data.join(", "));
+    } else {
+        console.error(result.error);
+    }
+}
+
+// Type predicates with discriminated unions
+type Circle = {
+    kind: "circle";
+    radius: number;
+}
+
+type Square = {
+    kind: "square";
+    sideLength: number;
+}
+
+type Shape = Circle | Square;
+
+function isCircle(shape: Shape): shape is Circle {
+    return shape.kind === "circle";
+}
+
+function calculateArea(shape: Shape): number {
+    if (isCircle(shape)) {
+        return Math.PI * shape.radius ** 2;
+    } else {
+        return shape.sideLength ** 2;
+    }
+}
+
+// Type predicates with type guards in classes
+class Car {
+    drive() {
+        console.log("Driving a car");
+    }
+}
+
+class Boat {
+    sail() {
+        console.log("Sailing a boat");
+    }
+}
+
+function isCar(vehicle: Car | Boat): vehicle is Car {
+    return vehicle instanceof Car;
+}
+
+function operateVehicle(vehicle: Car | Boat) {
+    if (isCar(vehicle)) {
+        vehicle.drive();
+    } else {
+        vehicle.sail();
+    }
+}
+
+// Complex type predicate with validation
+interface User {
+    id: number;
+    name: string;
+    email: string;
+}
+
+function isValidUser(obj: any): obj is User {
+    return obj &&
+           typeof obj.id === "number" &&
+           typeof obj.name === "string" &&
+           typeof obj.email === "string" &&
+           obj.email.includes("@");
+}
+
+// Usage with API responses
+async function fetchUser(id: number): Promise<User> {
+    const response = await fetch(`/api/users/${id}`);
+    const data = await response.json();
+    
+    if (isValidUser(data)) {
+        return data;
+    } else {
+        throw new Error("Invalid user data received");
+    }
+}
+
+// Type predicates with generic functions
+function isOfType<T>(obj: any, key: keyof T): obj is T {
+    return obj && typeof obj === "object" && key in obj;
+}
+
+function processData(data: unknown) {
+    if (isOfType<{ value: number }>(data, "value")) {
+        // data is now { value: number }
+        console.log(data.value.toFixed(2));
+    }
+}
+
+// Type predicates with multiple conditions
+function isAdmin(user: User): user is User & { role: "admin" } {
+    return "role" in user && user.role === "admin";
+}
+
+function handleUser(user: User) {
+    if (isAdmin(user)) {
+        // user has role admin here
+        console.log(`Admin user: ${user.name}`);
+    } else {
+        console.log(`Regular user: ${user.name}`);
+    }
+}</code></pre>
+                <p class="text-gray-600">
+                  Type predicates are an advanced TypeScript feature that allows you to create custom type guards with explicit type information. 
+                  They are extremely useful for validating data from external sources (like APIs) and for creating robust, type-safe conditional logic 
+                  in your applications. By using type predicates, you can move type checking logic into reusable functions that improve both code 
+                  readability and type safety.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section id="examples" class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">
+          TypeScript Examples
+        </h2>
+
+        <div
+          class="tabs tabs-boxed justify-center mb-8 bg-gray-100 p-1 rounded-lg max-w-xl mx-auto"
+        >
+          <a class="tab tab-active" onclick="showExample(1)">Union Types</a>
+          <a class="tab" onclick="showExample(2)">Optional Chaining</a>
+          <a class="tab" onclick="showExample(3)">Type Guards</a>
+          <a class="tab" onclick="showExample(4)">Type Assertions</a>
+          <a class="tab" onclick="showExample(5)">Generics</a>
+        </div>
+
+        <div
+          class="bg-white rounded-xl shadow-lg overflow-hidden max-w-4xl mx-auto border border-gray-100"
+        >
+          <div class="p-6 border-b bg-gray-50">
+            <h3 class="text-xl font-semibold text-gray-800" id="example-title">
+              Union Types Example
+            </h3>
+            <p class="text-gray-600 mt-2" id="example-description">
+              Function that accepts both string and number types and returns different results based on the input type.
+            </p>
+          </div>
+          <div class="p-6 bg-gray-800 text-white">
+            <pre
+              class="code-block"
+            ><code class="language-typescript" id="example-code">function reLengthOrNumber(name: string | number): number {
+    if (typeof name === "string") {
+        return name.length;
+    } else {
+        return name * name;
+    }
+}</code></pre>
+          </div>
+          <div class="p-6 border-t">
+            <div
+              class="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4"
+            >
+              <input
+                type="text"
+                placeholder="Enter a string or number"
+                class="input input-bordered flex-grow"
+                id="example-input"
+              />
+              <button class="btn btn-primary" onclick="runExample()">
+                Run Example
+              </button>
+            </div>
+            <div class="mt-4 p-4 bg-gray-100 rounded-lg">
+              <p class="text-gray-700 font-medium">Output:</p>
+              <p id="example-output" class="mt-2 text-gray-800">
+                // Results will appear here
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Try It Section -->
+    <section id="tryit" class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">
+          Professional TypeScript Editor
+        </h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          <div class="editor-container">
+            <div class="editor-header">
+              <div class="flex items-center">
+                <i class="fab fa-typescript text-blue-400 mr-2"></i>
+                <span>TypeScript Editor</span>
+              </div>
+              <div class="flex space-x-2">
+                <button class="text-sm bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded" onclick="formatCode()">
+                  Format
+                </button>
+                <button class="text-sm bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded" onclick="compileCode()">
+                  Run
+                </button>
+              </div>
+            </div>
+            <div class="editor-body">
+              <textarea
+                id="typescript-code"
+                class="w-full h-72 bg-gray-900 text-white p-4 font-mono text-sm"
+                spellcheck="false"
+              >// Write your TypeScript code here
+function greet(name: string): string {
+    return `Hello, ${name}!`;
+}
+
+// Example of generics
+function identity&lt;T&gt;(arg: T): T {
+    return arg;
+}
+
+// Example of union types
+type StringOrNumber = string | number;
+
+function processInput(input: StringOrNumber): string {
+    if (typeof input === "string") {
+        return input.toUpperCase();
+    } else {
+        return input.toFixed(2);
+    }
+}
+
+const result = greet("TypeScript");
+console.log(result);
+console.log(identity&lt;number&gt;(42));
+console.log(processInput("hello"));
+console.log(processInput(3.14159));</textarea>
+            </div>
+          </div>
+
+          <div class="bg-gray-100 rounded-xl shadow-lg overflow-hidden">
+            <div class="p-4 bg-gray-200 text-gray-800 font-medium">
+              <div class="flex items-center justify-between">
+                <span>Output</span>
+                <button class="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 px-3 py-1 rounded" onclick="clearOutput()">
+                  Clear
+                </button>
+              </div>
+            </div>
+            <div class="p-4">
+              <pre
+                class="h-72 bg-white p-4 rounded-lg overflow-auto"
+              ><code id="output-code" class="text-sm">// Output will appear here</code></pre>
+            </div>
+            <div class="p-4 border-t border-gray-300 bg-gray-50">
+              <div class="flex items-center space-x-2 text-gray-600">
+                <i class="fas fa-info-circle"></i>
+                <span class="text-sm"
+                  >TypeScript is compiled to JavaScript in real-time</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Chatbot -->
+    <div class="chatbot-container">
+      <div class="chatbot-button" onclick="toggleChatbot()">
+        <i class="fas fa-robot text-xl"></i>
+      </div>
+      <div class="chatbot-window">
+        <div class="chat-header">
+          <h3 class="font-semibold">TypeScript Assistant</h3>
+          <button onclick="toggleChatbot()" class="text-white">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+          <div class="message bot-message">
+            Hi there! I'm your TypeScript assistant. How can I help you with TypeScript today?
+          </div>
+        </div>
+        <div class="chat-input">
+          <input 
+            type="text" 
+            id="chat-input" 
+            placeholder="Ask a TypeScript question..." 
+            onkeypress="if(event.key === 'Enter') sendMessage()"
+          />
+          <button class="btn btn-primary btn-sm" onclick="sendMessage()">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h3 class="text-xl font-semibold mb-4">TypeScript Showcase</h3>
+            <p class="text-gray-400">
+              A professional demonstration of advanced TypeScript features and patterns with interactive examples and AI assistance.
+            </p>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-4">Quick Links</h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="#features" class="text-gray-400 hover:text-white"
+                  >Features</a
+                >
+              </li>
+              <li>
+                <a href="#examples" class="text-gray-400 hover:text-white"
+                  >Examples</a
+                >
+              </li>
+              <li>
+                <a href="#tryit" class="text-gray-400 hover:text-white"
+                  >Try It</a
+                >
+              </li>
+              <li>
+                <a href="#articles" class="text-gray-400 hover:text-white"
+                  >Articles</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-4">Resources</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="https://www.typescriptlang.org/"
+                  class="text-gray-400 hover:text-white"
+                  >TypeScript Documentation</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/Kawser420"
+                  class="text-gray-400 hover:text-white"
+                  >My GitHub Repository Profile</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://www.typescriptlang.org/play"
+                  class="text-gray-400 hover:text-white"
+                  >TypeScript Playground</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400"
+        >
+          <p>&copy; 2025 TypeScript Showcase. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Initialize syntax highlighting
+      hljs.highlightAll();
+
+      // Example data
+      const examples = [
+        {
+          title: "Union Types Example",
+          description:
+            "Function that accepts both string and number types and returns different results based on the input type.",
+          code: `function reLengthOrNumber(name: string | number): number {
+    if (typeof name === "string") {
+        return name.length;
+    } else {
+        return name * name;
+    }
+}`,
+          run: (input) => {
+            try {
+              const parsedInput = isNaN(input) ? input : Number(input);
+              return reLengthOrNumber(parsedInput);
+            } catch (e) {
+              return "Error: " + e.message;
+            }
+          },
+        },
+        {
+          title: "Optional Chaining Example",
+          description:
+            "Safely access nested properties with optional chaining to avoid runtime errors.",
+          code: `interface Address {
+    city: string;
+    street: string;
+}
+
+interface Person {
+    phone?: string;
+    address?: Address;
+}
+
+const getAddressCity = (person: Person): string | undefined => {
+    return person.address?.city;
+}`,
+          run: (input) => {
+            try {
+              const testPerson = {
+                name: "John",
+                address:
+                  input === "withAddress"
+                    ? { city: "New York", street: "Broadway" }
+                    : undefined,
+              };
+              return getAddressCity(testPerson) || "No address found";
+            } catch (e) {
+              return "Error: " + e.message;
+            }
+          },
+        },
+        {
+          title: "Type Guards Example",
+          description:
+            "Using type guards to narrow down types and ensure type safety at runtime.",
+          code: `class Cat {
+    meow() {
+        return "Meow!";
+    }
+}
+
+const isCat = (obj: any): obj is Cat => {
+    return obj instanceof Cat;
+}
+
+const checkCat = (obj: any): string => {
+    if (isCat(obj)) {
+        return "Yes, it's a cat: " + obj.meow();
+    } else {
+        return "No, it's not a cat";
+    }
+}`,
+          run: (input) => {
+            try {
+              if (input === "cat") {
+                return checkCat(new Cat());
+              } else {
+                return checkCat({ bark: () => "Woof!" });
+              }
+            } catch (e) {
+              return "Error: " + e.message;
+            }
+          },
+        },
+        {
+          title: "Type Assertions Example",
+          description:
+            "Using type assertions to tell the compiler to treat a value as a specific type.",
+          code: `const simpleOfMixedData = (mixedData: string | number) => {
+    if (typeof mixedData === "string") {
+        const convertNumber = parseFloat(mixedData) * 1000;
+        return \`this is : \${convertNumber}\`;
+    }
+    if (typeof mixedData === "number") {
+        return mixedData * 1000;
+    }
+}`,
+          run: (input) => {
+            try {
+              const parsedInput = isNaN(input) ? input : Number(input);
+              return simpleOfMixedData(parsedInput);
+            } catch (e) {
+              return "Error: " + e.message;
+            }
+          },
+        },
+        {
+          title: "Generics Example",
+          description:
+            "Using generics to create reusable components that work with multiple types.",
+          code: `const findFirstOccurrence = <T>(arr: T[], value: T): number => {
+    const index = arr.indexOf(value);
+    return index;
+}
+
+const numbers: number[] = [1, 2, 3, 4, 5, 2];
+const strings: string[] = ['apple', "banana", "cherry", "data", "apple"];`,
+          run: (input) => {
+            try {
+              const numbers = [1, 2, 3, 4, 5, 2];
+              const strings = ["apple", "banana", "cherry", "data", "apple"];
+
+              if (input === "number") {
+                return `Index of 2 in numbers: ${findFirstOccurrence(
+                  numbers,
+                  2
+                )}`;
+              } else {
+                return `Index of "cherry" in strings: ${findFirstOccurrence(
+                  strings,
+                  "cherry"
+                )}`;
+              }
+            } catch (e) {
+              return "Error: " + e.message;
+            }
+          },
+        },
+      ];
+
+      let currentExample = 0;
+      let lastScrollTop = 0;
+      let chatbotOpen = false;
+
+      // Function to show the selected example
+      function showExample(index) {
+        currentExample = index - 1;
+        const example = examples[currentExample];
+        document.getElementById("example-title").textContent = example.title;
+        document.getElementById("example-description").textContent =
+          example.description;
+        document.getElementById("example-code").textContent = example.code;
+        document.getElementById("example-input").placeholder =
+          currentExample === 1
+            ? "Enter 'withAddress' or anything else"
+            : currentExample === 2
+            ? "Enter 'cat' or anything else"
+            : currentExample === 4
+            ? "Enter 'number' or anything else"
+            : "Enter a string or number";
+
+        // Update tabs
+        const tabs = document.querySelectorAll(".tab");
+        tabs.forEach((tab, i) => {
+          if (i === currentExample) {
+            tab.classList.add("tab-active");
+          } else {
+            tab.classList.remove("tab-active");
+          }
+        });
+
+        hljs.highlightAll();
+      }
+
+      // Function to run the example
+      function runExample() {
+        const input = document.getElementById("example-input").value;
+        const output = examples[currentExample].run(input);
+        document.getElementById("example-output").textContent = output;
+      }
+
+      // Function to compile and run user code
+      function compileCode() {
+        const code = document.getElementById("typescript-code").value;
+        const outputElement = document.getElementById("output-code");
+
+        try {
+          // Use the TypeScript compiler API for better compilation
+          const result = window.ts.transpileModule(code, {
+            compilerOptions: {
+              target: window.ts.ScriptTarget.ES2015,
+              module: window.ts.ModuleKind.CommonJS,
+              strict: true
+            }
+          });
+          
+          const compiledCode = result.outputText;
+
+          // Capture console.log output
+          const originalLog = console.log;
+          let output = "";
+          console.log = function (message) {
+            output += message + "\n";
+          };
+
+          // Execute the code
+          try {
+            eval(compiledCode);
+          } catch (e) {
+            output = "Runtime error: " + e.message;
+          }
+
+          // Restore console.log
+          console.log = originalLog;
+
+          outputElement.textContent =
+            output || "Code executed successfully (no output)";
+        } catch (error) {
+          outputElement.textContent = "Compilation error: " + error.message;
+        }
+      }
+
+      // Format code in the editor
+      function formatCode() {
+        const codeElement = document.getElementById("typescript-code");
+        const code = codeElement.value;
+        
+        // Simple formatting (in a real application, use a proper formatter)
+        try {
+          // Add newlines after braces and semicolons for better readability
+          let formattedCode = code
+            .replace(/(\{)(?!\s)/g, '$1 ')
+            .replace(/(\})(?!\s)/g, '$1 ')
+            .replace(/(\;)(?!\s)/g, '$1\n')
+            .replace(/(\n)(\s*)(?=\/\/)/g, '$1$2');
+          
+          codeElement.value = formattedCode;
+        } catch (e) {
+          console.error("Error formatting code:", e);
+        }
+      }
+
+      // Clear output
+      function clearOutput() {
+        document.getElementById("output-code").textContent = "// Output cleared";
+      }
+
+      // Toggle article visibility
+      function toggleArticle(index) {
+        const articles = document.querySelectorAll(".article-content");
+        const article = articles[index];
+        article.classList.toggle("show");
+
+        // Update chevron icon
+        const chevron = article.parentElement.querySelector(".fa-chevron-down");
+        chevron.classList.toggle("fa-rotate-180");
+      }
+
+      // Show article when feature card is clicked
+      function showArticle(index) {
+        // Close all articles first
+        const articles = document.querySelectorAll(".article-content");
+        articles.forEach((article) => {
+          article.classList.remove("show");
+        });
+
+        // Reset all chevrons
+        const chevrons = document.querySelectorAll(".fa-chevron-down");
+        chevrons.forEach((chevron) => {
+          chevron.classList.remove("fa-rotate-180");
+        });
+
+        // Open the selected article
+        toggleArticle(index);
+
+        // Scroll to articles section
+        document
+          .getElementById("articles")
+          .scrollIntoView({ behavior: "smooth" });
+      }
+
+      // Toggle mobile menu
+      function toggleMobileMenu() {
+        const mobileMenu = document.getElementById("mobile-menu");
+        mobileMenu.classList.toggle("-translate-y-full");
+      }
+
+      // Toggle chatbot
+      function toggleChatbot() {
+        const chatbotWindow = document.querySelector('.chatbot-window');
+        chatbotOpen = !chatbotOpen;
+        
+        if (chatbotOpen) {
+          chatbotWindow.classList.add('open');
+        } else {
+          chatbotWindow.classList.remove('open');
+        }
+      }
+
+      // Send message to chatbot
+      function sendMessage() {
+        const input = document.getElementById('chat-input');
+        const message = input.value.trim();
+        
+        if (message === '') return;
+        
+        const chatMessages = document.getElementById('chat-messages');
+        
+        // Add user message
+        const userMessage = document.createElement('div');
+        userMessage.className = 'message user-message';
+        userMessage.textContent = message;
+        chatMessages.appendChild(userMessage);
+        
+        // Clear input
+        input.value = '';
+        
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        // Show typing indicator
+        const typingIndicator = document.createElement('div');
+        typingIndicator.className = 'typing-animation';
+        typingIndicator.innerHTML = '<span></span><span></span><span></span>';
+        chatMessages.appendChild(typingIndicator);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        // Simulate AI response after a delay
+        setTimeout(() => {
+          chatMessages.removeChild(typingIndicator);
+          
+          // Add bot response
+          const botResponse = getBotResponse(message);
+          const botMessage = document.createElement('div');
+          botMessage.className = 'message bot-message';
+          botMessage.innerHTML = botResponse;
+          chatMessages.appendChild(botMessage);
+          
+          // Scroll to bottom
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 1500);
+      }
+
+      // Get bot response based on user message
+      function getBotResponse(message) {
+        const lowerMessage = message.toLowerCase();
+        
+        if (lowerMessage.includes('union') || lowerMessage.includes('type')) {
+          return `Union types allow a value to be one of several types. You define them using the pipe character (|). For example: <code>type ID = string | number;</code>. This is useful when a value can be of multiple types.`;
+        } else if (lowerMessage.includes('generic')) {
+          return `Generics enable creating reusable components that work with multiple types. They provide type variables that can be used to capture types. For example: <code>function identity&lt;T&gt;(arg: T): T { return arg; }</code>`;
+        } else if (lowerMessage.includes('guard') || lowerMessage.includes('narrow')) {
+          return `Type guards are expressions that perform runtime checks to narrow down types. You can use typeof, instanceof, or custom type guard functions with a type predicate. For example: <code>function isString(value: any): value is string { return typeof value === "string"; }</code>`;
+        } else if (lowerMessage.includes('optional') || lowerMessage.includes('chain')) {
+          return `Optional chaining (?.) allows safe access to nested properties without worrying about null/undefined. For example: <code>const city = user?.address?.city;</code>. It short-circuits and returns undefined if any part is null/undefined.`;
+        } else if (lowerMessage.includes('assertion') || lowerMessage.includes('cast')) {
+          return `Type assertions tell the compiler to treat a value as a specific type. Use the as syntax: <code>let value = someValue as string;</code>. This is useful when you know more about the type than TypeScript does.`;
+        } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
+          return `Hello! I'm your TypeScript assistant. Ask me about TypeScript features like union types, generics, type guards, optional chaining, or type assertions.`;
+        } else {
+          return `I'm not sure how to answer that. Try asking about TypeScript features like union types, generics, type guards, optional chaining, or type assertions.`;
+        }
+      }
+
+      // Implement the TypeScript functions for the examples
+      function reLengthOrNumber(name) {
+        if (typeof name === "string") {
+          return name.length;
+        } else {
+          return name * name;
+        }
+      }
+
+      function getAddressCity(person) {
+        return person.address?.city;
+      }
+
+      class Cat {
+        meow() {
+          return "Meow!";
+        }
+      }
+
+      function isCat(obj) {
+        return obj instanceof Cat;
+      }
+
+      function checkCat(obj) {
+        if (isCat(obj)) {
+          return "Yes, it's a cat: " + obj.meow();
+        } else {
+          return "No, it's not a cat";
+        }
+      }
+
+      function simpleOfMixedData(mixedData) {
+        if (typeof mixedData === "string") {
+          const convertNumber = parseFloat(mixedData) * 1000;
+          return `this is : ${convertNumber}`;
+        }
+        if (typeof mixedData === "number") {
+          return mixedData * 1000;
+        }
+      }
+
+      function findFirstOccurrence(arr, value) {
+        const index = arr.indexOf(value);
+        return index;
+      }
+
+      // Hide navbar on scroll down, show on scroll up
+      window.addEventListener("scroll", function () {
+        const navbar = document.getElementById("navbar");
+        const mobileMenu = document.getElementById("mobile-menu");
+        let scrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+          navbar.classList.add("nav-hidden");
+          mobileMenu.classList.add("-translate-y-full");
+        } else {
+          navbar.classList.remove("nav-hidden");
+        }
+
+        lastScrollTop = scrollTop;
+      });
+
+      // Close mobile menu when clicking outside
+      document.addEventListener("click", function (event) {
+        const mobileMenu = document.getElementById("mobile-menu");
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+
+        if (
+          !mobileMenu.contains(event.target) &&
+          event.target !== mobileMenuButton &&
+          !mobileMenuButton.contains(event.target)
+        ) {
+          mobileMenu.classList.add("-translate-y-full");
+        }
+      });
+
+      // Close chatbot when clicking outside
+      document.addEventListener("click", function (event) {
+        const chatbotButton = document.querySelector('.chatbot-button');
+        const chatbotWindow = document.querySelector('.chatbot-window');
+        
+        if (
+          chatbotOpen &&
+          !chatbotWindow.contains(event.target) &&
+          !chatbotButton.contains(event.target)
+        ) {
+          toggleChatbot();
+        }
+      });
+
+      // Initialize the first example
+      showExample(1);
+    </script>
+  </body>
+</html>
