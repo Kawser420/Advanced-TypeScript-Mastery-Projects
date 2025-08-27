@@ -1308,9 +1308,9 @@ function uid() {
   return (++_id).toString(36);
 }
 
-// -----------------------------
+// ----------------------------
 // Advanced — Matrix multiplication (naive)
-// -----------------------------
+// ----------------------------
 
 // 96. Matrix multiply
 function matMul(A: number[][], B: number[][]) {
