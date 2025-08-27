@@ -1299,7 +1299,7 @@ function assertNever(x: never): never {
 }
 
 // -----------------------------
-// System — PID-like generator
+// System — PID-like Generator
 // -----------------------------
 
 // 95. Simple unique id
