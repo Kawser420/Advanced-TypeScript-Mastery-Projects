@@ -1,34 +1,582 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- project title  -->
-    <title>Advanced | TypeScript</title>
-    <!-- style css  -->
-     <link rel="stylesheet" href="css/style.css">
-    <link
-      href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css"
-      rel="stylesheet"
-      type="text/css"
-    />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced TypeScript Playground</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/typescript@latest/lib/typescriptServices.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-  </head>
-  <body class="bg-gray-50 min-h-screen">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --neutral: #1f2937;
+            --base: #f9fafb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --code-bg: #1f2937;
+            --editor-bg: #0f172a;
+            --editor-header: #1e293b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #374151;
+            background-color: var(--base);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Improved Navigation */
+        #navbar {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-hidden {
+            transform: translateY(-100%);
+        }
+
+        .nav-visible {
+            transform: translateY(0);
+        }
+
+        /* Enhanced Hero Section */
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gradient-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.1' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,261.3C672,256,768,224,864,224C960,224,1056,256,1152,245.3C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Enhanced Feature Cards */
+        .feature-card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .feature-card .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-card .card-actions {
+            margin-top: auto;
+        }
+
+        /* Improved Code Display */
+        .code-block {
+            font-size: 0.9rem;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        pre code.hljs {
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Article System */
+        .article {
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .article-header {
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .article-header:hover {
+            background-color: #f8fafc !important;
+        }
+
+        .article-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+
+        .article-content.show {
+            max-height: 5000px;
+        }
+
+        /* Tab System */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .tab:hover {
+            background-color: #e5e7eb;
+        }
+
+        .tab-active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Enhanced Editor */
+        .editor-container {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .editor-header {
+            background-color: var(--editor-header);
+            color: white;
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .editor-body {
+            position: relative;
+            flex: 1;
+        }
+
+        #typescript-code {
+            width: 100%;
+            height: 100%;
+            background-color: var(--editor-bg);
+            color: #e2e8f0;
+            padding: 1rem;
+            font-family: 'Fira Code', monospace;
+            resize: none;
+            border: none;
+            outline: none;
+            line-height: 1.5;
+            tab-size: 2;
+        }
+
+        .output-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #output-code {
+            flex: 1;
+            overflow: auto;
+            white-space: pre-wrap;
+            background-color: #f8fafc;
+            color: #1f2937;
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Improved Chatbot */
+        .chatbot-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+        }
+
+        .chatbot-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s ease;
+            z-index: 101;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.5);
+        }
+
+        .chatbot-window {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 350px;
+            height: 450px;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-window.open {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+
+        .chat-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 0.75rem;
+            border-radius: 1rem;
+            line-height: 1.4;
+        }
+
+        .user-message {
+            background: var(--primary);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 0.25rem;
+        }
+
+        .bot-message {
+            background: #f1f5f9;
+            color: #1e293b; /* Changed from var(--neutral) to a darker blue-gray for better readability */
+            align-self: flex-start;
+            border-bottom-left-radius: 0.25rem;
+        }
+
+        .bot-message code {
+            background-color: #e5e7eb;
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.25rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85em;
+            color: #1e293b; /* Ensure code has good contrast too */
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 0.75rem;
+            border-top: 1px solid #e2e8f0;
+            gap: 0.5rem;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.375rem;
+            outline: none;
+            transition: border-color 0.2s;
+            color: #1e293b; /* Ensure input text is readable */
+        }
+
+        .chat-input input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Custom animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Loading animation for chatbot */
+        .typing-animation {
+            display: flex;
+            padding: 0.75rem;
+            align-items: center;
+        }
+
+        .typing-animation span {
+            height: 8px;
+            width: 8px;
+            background: #cbd5e0;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typing 1s infinite ease-in-out;
+        }
+
+        .typing-animation span:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .typing-animation span:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        @keyframes typing {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Examples section */
+        .example-container {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .example-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .example-code {
+            padding: 0;
+            background-color: var(--code-bg);
+        }
+
+        .example-actions {
+            padding: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #111827;
+            color: white;
+        }
+
+        footer a {
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: var(--primary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 0.5rem;
+            }
+            
+            .hero-title {
+                font-size: 2.25rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.125rem;
+            }
+            
+            .tabs {
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+            
+            .tab {
+                flex-shrink: 0;
+            }
+            
+            .chatbot-window {
+                width: 300px;
+                right: -1rem;
+            }
+            
+            .editor-header {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
+            
+            .editor-actions {
+                align-self: flex-end;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chatbot-window {
+                width: calc(100vw - 2rem);
+                right: 1rem;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+            
+            .feature-card .card-body {
+                padding: 1rem;
+            }
+            
+            .example-actions {
+                flex-direction: column;
+            }
+            
+            .example-actions input {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        /* Utility classes */
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .shadow-lg {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .rounded-xl {
+            border-radius: 12px;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Highlight.js theme adjustments */
+        .hljs {
+            background: var(--code-bg);
+            color: #e2e8f0;
+        }
+
+        .hljs-keyword,
+        .hljs-selector-tag,
+        .hljs-built_in {
+            color: #ff7b72;
+        }
+
+        .hljs-number {
+            color: #d2a8ff;
+        }
+
+        .hljs-string {
+            color: #a5d6ff;
+        }
+
+        .hljs-title {
+            color: #79c0ff;
+        }
+
+        .hljs-params {
+            color: #ffa657;
+        }
+
+        .hljs-comment {
+            color: #8b949e;
+        }
+
+        .hljs-meta {
+            color: #7ee787;
+        }
+
+        /* Smooth scrolling for the entire page */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
     <!-- Navigation -->
     <nav
       id="navbar"
-      class="bg-white shadow-sm fixed top-0 w-full z-50 transition-transform duration-300 nav-visible"
+      class="fixed top-0 w-full z-50 transition-transform duration-300 nav-visible bg-white shadow-sm"
     >
       <div class="container mx-auto px-4">
         <div class="flex justify-between items-center py-4">
@@ -63,7 +611,7 @@
             <a
               href="#tryit"
               class="text-gray-600 hover:text-blue-500 transition-colors"
-              >Try It</a
+              >Playground</a
             >
             <a
               href="#articles"
@@ -113,7 +661,7 @@
           href="#tryit"
           class="text-gray-600 hover:text-blue-500 transition-colors py-2"
           onclick="toggleMobileMenu()"
-          >Try It</a
+          >Playground</a
         >
         <a
           href="#articles"
@@ -127,15 +675,15 @@
     <!-- Hero Section -->
     <section class="pt-32 pb-16 gradient-bg text-white">
       <div class="container mx-auto px-4 text-center">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4">
-          Explore Advanced TypeScript Features
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 hero-title">
+          Master Advanced <span class="text-gradient">TypeScript</span> Features
         </h1>
-        <p class="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-          Explore advanced TypeScript features and patterns with interactive examples, AI assistance, and professional code editor.
+        <p class="text-xl opacity-90 max-w-2xl mx-auto mb-8 hero-subtitle">
+          Explore advanced TypeScript features with interactive examples, AI assistance, and a professional code editor.
         </p>
         <div class="flex justify-center space-x-4">
-          <a href="#tryit" class="btn btn-primary bg-white text-blue-600 hover:bg-gray-100">Try Examples</a>
-          <a href="#features" class="btn btn-outline text-white border-white hover:bg-white hover:text-blue-600">Learn More</a>
+          <a href="#tryit" class="btn btn-primary bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 rounded-lg transition-all duration-300 transform hover:-translate-y-1">Try Examples</a>
+          <a href="#features" class="btn btn-outline text-white border-white hover:bg-white hover:text-blue-600 px-6 py-3 rounded-lg transition-all duration-300 transform hover:-translate-y-1">Learn More</a>
         </div>
       </div>
     </section>
@@ -144,9 +692,10 @@
     <section id="features" class="py-16 bg-white">
       <div class="container mx-auto px-4">
         <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">
-          TypeScript Features
+          Advanced TypeScript Features
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Feature 1 -->
           <div
             class="feature-card card bg-base-100 shadow-xl border border-gray-100"
             onclick="showArticle(0)"
@@ -166,6 +715,8 @@
               </div>
             </div>
           </div>
+          
+          <!-- Feature 2 -->
           <div
             class="feature-card card bg-base-100 shadow-xl border border-gray-100"
             onclick="showArticle(1)"
@@ -185,6 +736,8 @@
               </div>
             </div>
           </div>
+          
+          <!-- Feature 3 -->
           <div
             class="feature-card card bg-base-100 shadow-xl border border-gray-100"
             onclick="showArticle(2)"
@@ -204,6 +757,8 @@
               </div>
             </div>
           </div>
+          
+          <!-- Feature 4 -->
           <div
             class="feature-card card bg-base-100 shadow-xl border border-gray-100"
             onclick="showArticle(3)"
@@ -223,6 +778,8 @@
               </div>
             </div>
           </div>
+          
+          <!-- Feature 5 -->
           <div
             class="feature-card card bg-base-100 shadow-xl border border-gray-100"
             onclick="showArticle(4)"
@@ -242,6 +799,8 @@
               </div>
             </div>
           </div>
+          
+          <!-- Feature 6 -->
           <div
             class="feature-card card bg-base-100 shadow-xl border border-gray-100"
             onclick="showArticle(5)"
@@ -261,9 +820,73 @@
               </div>
             </div>
           </div>
+          
+          <!-- Feature 7 -->
+          <div
+            class="feature-card card bg-base-100 shadow-xl border border-gray-100"
+            onclick="showArticle(6)"
+          >
+            <div class="card-body">
+              <div
+                class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center mb-4"
+              >
+                <i class="fas fa-magic text-pink-500 text-xl"></i>
+              </div>
+              <h3 class="card-title text-gray-800">Decorators</h3>
+              <p class="text-gray-600">
+                Add annotations and meta-programming syntax for classes, methods, and properties.
+              </p>
+              <div class="card-actions justify-end">
+                <button class="btn btn-ghost btn-sm text-pink-500">Learn more</button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Feature 8 -->
+          <div
+            class="feature-card card bg-base-100 shadow-xl border border-gray-100"
+            onclick="showArticle(7)"
+          >
+            <div class="card-body">
+              <div
+                class="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center mb-4"
+              >
+                <i class="fas fa-project-diagram text-teal-500 text-xl"></i>
+              </div>
+              <h3 class="card-title text-gray-800">Advanced Types</h3>
+              <p class="text-gray-600">
+                Master mapped types, conditional types, and template literal types for advanced type manipulation.
+              </p>
+              <div class="card-actions justify-end">
+                <button class="btn btn-ghost btn-sm text-teal-500">Learn more</button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Feature 9 -->
+          <div
+            class="feature-card card bg-base-100 shadow-xl border border-gray-100"
+            onclick="showArticle(8)"
+          >
+            <div class="card-body">
+              <div
+                class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mb-4"
+              >
+                <i class="fas fa-cube text-orange-500 text-xl"></i>
+              </div>
+              <h3 class="card-title text-gray-800">Modules & Namespaces</h3>
+              <p class="text-gray-600">
+                Organize code with modules and namespaces for better structure and maintainability.
+              </p>
+              <div class="card-actions justify-end">
+                <button class="btn btn-ghost btn-sm text-orange-500">Learn more</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
+
 
     <!-- Articles Section -->
     <section id="articles" class="py-16 bg-gray-50">
@@ -907,6 +1530,611 @@ function handleUser(user: User) {
               </div>
             </div>
           </div>
+
+          <!-- Article 7: Decorators -->
+          <div class="article bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+            <div
+              class="article-header p-6 border-b cursor-pointer bg-gray-50"
+              onclick="toggleArticle(6)"
+            >
+              <h3
+                class="text-xl font-semibold text-gray-800 flex justify-between items-center"
+              >
+                <span>Decorators in TypeScript</span>
+                <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+              </h3>
+            </div>
+            <div class="article-content">
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  Decorators provide a way to add both annotations and a meta-programming syntax for class declarations and members. 
+                  They are a stage 2 proposal for JavaScript and are available as an experimental feature in TypeScript.
+                </p>
+                <pre
+                  class="bg-gray-800 text-white p-4 rounded-lg mb-4"
+                ><code class="language-typescript">// Class decorator
+function sealed(constructor: Function) {
+    Object.seal(constructor);
+    Object.seal(constructor.prototype);
+}
+
+@sealed
+class Greeter {
+    greeting: string;
+    constructor(message: string) {
+        this.greeting = message;
+    }
+    greet() {
+        return "Hello, " + this.greeting;
+    }
+}
+
+// Method decorator
+function enumerable(value: boolean) {
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+        descriptor.enumerable = value;
+    };
+}
+
+class Greeter {
+    greeting: string;
+    constructor(message: string) {
+        this.greeting = message;
+    }
+
+    @enumerable(false)
+    greet() {
+        return "Hello, " + this.greeting;
+    }
+}
+
+// Accessor decorator
+function configurable(value: boolean) {
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+        descriptor.configurable = value;
+    };
+}
+
+class Point {
+    private _x: number;
+    private _y: number;
+    constructor(x: number, y: number) {
+        this._x = x;
+        this._y = y;
+    }
+
+    @configurable(false)
+    get x() { return this._x; }
+
+    @configurable(false)
+    get y() { return this._y; }
+}
+
+// Property decorator
+function format(formatString: string) {
+    return function (target: any, propertyKey: string): any {
+        let value = target[propertyKey];
+
+        function getter() {
+            return `${formatString} ${value}`;
+        }
+
+        function setter(newVal: string) {
+            value = newVal;
+        }
+
+        return {
+            get: getter,
+            set: setter,
+            enumerable: true,
+            configurable: true,
+        };
+    }
+}
+
+class Greeter {
+    @format('Hello')
+    greeting: string;
+}
+
+// Parameter decorator
+function required(target: Object, propertyKey: string | symbol, parameterIndex: number) {
+    console.log(`Parameter ${parameterIndex} in ${String(propertyKey)} is required`);
+}
+
+class Greeter {
+    greeting: string;
+
+    constructor(message: string) {
+        this.greeting = message;
+    }
+
+    greet(@required name: string) {
+        return "Hello " + name + ", " + this.greeting;
+    }
+}
+
+// Decorator factory
+function color(value: string) {
+    return function (target: any) {
+        // do something with 'target' and 'value'...
+    };
+}
+
+// Decorator composition
+@first()
+@second()
+class ExampleClass { }
+
+function first() {
+    console.log("first(): factory evaluated");
+    return function (target: any) {
+        console.log("first(): called");
+    };
+}
+
+function second() {
+    console.log("second(): factory evaluated");
+    return function (target: any) {
+        console.log("second(): called");
+    };
+}
+
+// Practical example: Logging decorator
+function log(target: any, key: string, descriptor: PropertyDescriptor) {
+    const originalMethod = descriptor.value;
+    
+    descriptor.value = function(...args: any[]) {
+        console.log(`Calling ${key} with args: ${JSON.stringify(args)}`);
+        const result = originalMethod.apply(this, args);
+        console.log(`${key} returned: ${JSON.stringify(result)}`);
+        return result;
+    };
+    
+    return descriptor;
+}
+
+class Calculator {
+    @log
+    add(x: number, y: number): number {
+        return x + y;
+    }
+}
+
+const calc = new Calculator();
+calc.add(5, 3);</code></pre>
+                <p class="text-gray-600">
+                  Decorators are a powerful meta-programming feature that can be used to modify or annotate classes and class members. 
+                  They are widely used in frameworks like Angular to provide functionality like dependency injection, component definitions, 
+                  and more. While still experimental in TypeScript, they offer significant capabilities for creating clean, declarative code.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 8: Advanced Types -->
+          <div class="article bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+            <div
+              class="article-header p-6 border-b cursor-pointer bg-gray-50"
+              onclick="toggleArticle(7)"
+            >
+              <h3
+                class="text-xl font-semibold text-gray-800 flex justify-between items-center"
+              >
+                <span>Advanced Types in TypeScript</span>
+                <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+              </h3>
+            </div>
+            <div class="article-content">
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  TypeScript offers several advanced type manipulation features including Mapped Types, Conditional Types, 
+                  and Template Literal Types that allow for sophisticated type transformations and operations.
+                </p>
+                <pre
+                  class="bg-gray-800 text-white p-4 rounded-lg mb-4"
+                ><code class="language-typescript">// Mapped Types
+type Readonly<T> = {
+    readonly [P in keyof T]: T[P];
+}
+
+type Partial<T> = {
+    [P in keyof T]?: T[P];
+}
+
+type Nullable<T> = {
+    [P in keyof T]: T[P] | null;
+}
+
+// Practical example with mapped types
+interface Person {
+    name: string;
+    age: number;
+    email: string;
+}
+
+type ReadonlyPerson = Readonly<Person>;
+type PartialPerson = Partial<Person>;
+type NullablePerson = Nullable<Person>;
+
+// Conditional Types
+type TypeName<T> =
+    T extends string ? "string" :
+    T extends number ? "number" :
+    T extends boolean ? "boolean" :
+    T extends undefined ? "undefined" :
+    T extends Function ? "function" :
+    "object";
+
+type T0 = TypeName<string>;  // "string"
+type T1 = TypeName<"a">;     // "string"
+type T2 = TypeName<true>;    // "boolean"
+type T3 = TypeName<() => void>;  // "function"
+type T4 = TypeName<string[]>;    // "object"
+
+// Infer keyword in conditional types
+type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
+
+type T5 = ReturnType<() => string>;        // string
+type T6 = ReturnType<(s: string) => void>; // void
+type T7 = ReturnType<<T>() => T>;          // {}
+type T8 = ReturnType<typeof Math.random>;  // number
+
+// Template Literal Types
+type World = "world";
+type Greeting = `hello ${World}`; // "hello world"
+
+type Color = "red" | "blue";
+type Quantity = "primary" | "secondary";
+
+type ColorQuantity = `${Color}-${Quantity}`;
+// "red-primary" | "red-secondary" | "blue-primary" | "blue-secondary"
+
+// Advanced mapped types with template literals
+type Getters<T> = {
+    [K in keyof T as `get${Capitalize<string & K>}`]: () => T[K]
+};
+
+interface Person {
+    name: string;
+    age: number;
+    location: string;
+}
+
+type LazyPerson = Getters<Person>;
+// {
+//   getName: () => string;
+//   getAge: () => number;
+//   getLocation: () => string;
+// }
+
+// Utility types deep dive
+type Required<T> = {
+    [P in keyof T]-?: T[P];
+};
+
+type Pick<T, K extends keyof T> = {
+    [P in K]: T[P];
+};
+
+type Record<K extends keyof any, T> = {
+    [P in K]: T;
+};
+
+type Exclude<T, U> = T extends U ? never : T;
+
+type Extract<T, U> = T extends U ? T : never;
+
+type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
+
+// Practical examples with utility types
+interface Todo {
+    title: string;
+    description: string;
+    completed: boolean;
+    createdAt: number;
+}
+
+// Create a type with all properties optional
+type PartialTodo = Partial<Todo>;
+
+// Create a type with only title and completed
+type TodoPreview = Pick<Todo, 'title' | 'completed'>;
+
+// Create a type that omits description
+type TodoWithoutDescription = Omit<Todo, 'description'>;
+
+// Create a mapped type that adds metadata
+type WithMetadata<T> = {
+    value: T;
+    timestamp: Date;
+    version: number;
+};
+
+type TodoWithMetadata = WithMetadata<Todo>;
+
+// Recursive types
+type Json =
+    | string
+    | number
+    | boolean
+    | null
+    | { [property: string]: Json }
+    | Json[];
+
+const jsonData: Json = {
+    name: "John",
+    age: 30,
+    hobbies: ["reading", "swimming"],
+    address: {
+        street: "123 Main St",
+        city: "Anytown"
+    }
+};
+
+// Conditional type with union distribution
+type ToArray<T> = T extends any ? T[] : never;
+type StrOrNumArray = ToArray<string | number>; // string[] | number[]
+
+// Non-distributive conditional type
+type ToArrayNonDist<T> = [T] extends [any] ? T[] : never;
+type StrOrNumArrayNonDist = ToArrayNonDist<string | number>; // (string | number)[]
+
+// Complex conditional type example
+type DeepReadonly<T> = 
+    T extends Function ? T :
+    T extends object ? { readonly [K in keyof T]: DeepReadonly<T[K]> } :
+    T;
+
+interface Example {
+    a: number;
+    b: {
+        c: string;
+        d: {
+            e: boolean;
+        };
+    };
+}
+
+type ReadonlyExample = DeepReadonly<Example>;</code></pre>
+                <p class="text-gray-600">
+                  Advanced types in TypeScript provide powerful tools for creating flexible, type-safe abstractions. 
+                  Mapped types allow you to create new types based on existing ones, conditional types enable type-level logic, 
+                  and template literal types facilitate string pattern matching. These features are particularly useful for 
+                  library authors and developers working on large codebases where type safety and maintainability are critical.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 9: Modules & Namespaces -->
+          <div class="article bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+            <div
+              class="article-header p-6 border-b cursor-pointer bg-gray-50"
+              onclick="toggleArticle(8)"
+            >
+              <h3
+                class="text-xl font-semibold text-gray-800 flex justify-between items-center"
+              >
+                <span>Modules and Namespaces in TypeScript</span>
+                <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+              </h3>
+            </div>
+            <div class="article-content">
+              <div class="p-6">
+                <p class="text-gray-600 mb-4">
+                  TypeScript provides two systems for organizing code: modules and namespaces. 
+                  Modules are the recommended approach for modern applications, while namespaces 
+                  are useful for organizing code in a global namespace.
+                </p>
+                <pre
+                  class="bg-gray-800 text-white p-4 rounded-lg mb-4"
+                ><code class="language-typescript">// Module example (ES6 modules)
+// math.ts
+export function add(x: number, y: number): number {
+    return x + y;
+}
+
+export function subtract(x: number, y: number): number {
+    return x - y;
+}
+
+// app.ts
+import { add, subtract } from './math';
+console.log(add(5, 3)); // Output: 8
+
+// Namespace example
+namespace Geometry {
+    export interface Point {
+        x: number;
+        y: number;
+    }
+    
+    export function distance(p1: Point, p2: Point): number {
+        return Math.sqrt((p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2);
+    }
+}
+
+// Using the namespace
+const point1: Geometry.Point = { x: 0, y: 0 };
+const point2: Geometry.Point = { x: 3, y: 4 };
+console.log(Geometry.distance(point1, point2)); // Output: 5
+
+// Module vs Namespace
+// Modules:
+// - Use file-based organization
+// - Use import/export syntax
+// - Better for large applications
+// - Supported by modern bundlers
+
+// Namespaces:
+// - Use logical grouping within a file
+// - Use namespace keyword and dot notation
+// - Can be split across files using reference comments
+// - Useful for organizing code in a global context
+
+// Dynamic imports
+async function loadMathModule() {
+    const math = await import('./math');
+    console.log(math.add(10, 5)); // Output: 15
+}
+
+// Re-exporting
+// shapes.ts
+export class Circle { /* ... */ }
+export class Square { /* ... */ }
+
+// index.ts
+export * from './shapes'; // Re-export all from shapes
+
+// Default exports
+// logger.ts
+export default class Logger {
+    log(message: string) {
+        console.log(message);
+    }
+}
+
+// app.ts
+import Logger from './logger';
+const logger = new Logger();
+logger.log('Hello world');
+
+// Namespace with multiple files
+// geometry.ts
+namespace Geometry {
+    export interface Point {
+        x: number;
+        y: number;
+    }
+}
+
+// circle.ts
+/// <reference path="geometry.ts" />
+namespace Geometry {
+    export class Circle {
+        constructor(public center: Point, public radius: number) {}
+        
+        area(): number {
+            return Math.PI * this.radius ** 2;
+        }
+    }
+}
+
+// app.ts
+/// <reference path="geometry.ts" />
+/// <reference path="circle.ts" />
+
+const circle = new Geometry.Circle({ x: 0, y: 0 }, 5);
+console.log(circle.area()); // Output: ~78.54
+
+// Module resolution strategies
+// Classic: TypeScript's former default resolution strategy
+// Node: Mimics Node.js module resolution
+
+// Path mapping in tsconfig.json
+// {
+//   "compilerOptions": {
+//     "baseUrl": "./",
+//     "paths": {
+//       "@utils/*": ["src/utils/*"],
+//       "@models": ["src/models/index"]
+//     }
+//   }
+// }
+
+// Using path mapping
+import { formatDate } from '@utils/dateFormatter';
+import { User } from '@models';
+
+// Ambient modules
+// Declare modules for libraries without type definitions
+declare module "my-library" {
+    export function doSomething(): void;
+    export const importantValue: number;
+}
+
+// Using the declared module
+import { doSomething, importantValue } from "my-library";
+
+// Module augmentation
+// Adding functionality to existing modules
+import { Observable } from "rxjs";
+
+declare module "rxjs" {
+    interface Observable<T> {
+        mapToUpperCase(): Observable<string>;
+    }
+}
+
+Observable.prototype.mapToUpperCase = function () {
+    return this.map((value: string) => value.toUpperCase());
+};
+
+// Using the augmented module
+const source = new Observable<string>(subscriber => {
+    subscriber.next('hello');
+    subscriber.next('world');
+});
+
+source.mapToUpperCase().subscribe(value => console.log(value));
+// Output: HELLO, WORLD
+
+// ES modules vs CommonJS
+// ES modules (import/export) - modern standard
+// CommonJS (require/module.exports) - Node.js style
+
+// Using CommonJS in TypeScript
+import fs = require('fs');
+// or
+import * as fs from 'fs';
+
+// Export equals
+// my-module.ts
+class MyClass {
+    // ...
+}
+export = MyClass;
+
+// app.ts
+import MyClass = require('./my-module');
+
+// Working with JSON modules
+// With "resolveJsonModule": true in tsconfig.json
+import data from './data.json';
+console.log(data.property);
+
+// Wildcard module declarations
+declare module "*.json" {
+    const value: any;
+    export default value;
+}
+
+declare module "*.css" {
+    const content: { [className: string]: string };
+    export default content;
+}
+
+// Using CSS modules
+import styles from './App.css';
+const className = styles.myClass;
+
+// Module best practices
+// 1. Use ES modules for new code
+// 2. Prefer named exports over default exports
+// 3. Use index.ts files for clean imports
+// 4. Use path mapping for avoiding relative path hell
+// 5. Use ambient modules for library type definitions</code></pre>
+                <p class="text-gray-600">
+                  Understanding modules and namespaces is crucial for organizing TypeScript code effectively. 
+                  While modules are the standard for modern applications, namespaces can still be useful in certain 
+                  scenarios, particularly when working with legacy code or when you need to avoid polluting the global namespace.
+                  TypeScript's flexible module system supports various module formats and provides powerful features like 
+                  path mapping and module augmentation to help create maintainable, well-organized codebases.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -926,12 +2154,11 @@ function handleUser(user: User) {
           <a class="tab" onclick="showExample(3)">Type Guards</a>
           <a class="tab" onclick="showExample(4)">Type Assertions</a>
           <a class="tab" onclick="showExample(5)">Generics</a>
+          <a class="tab" onclick="showExample(6)">Decorators</a>
         </div>
 
-        <div
-          class="bg-white rounded-xl shadow-lg overflow-hidden max-w-4xl mx-auto border border-gray-100"
-        >
-          <div class="p-6 border-b bg-gray-50">
+        <div class="example-container bg-white rounded-xl shadow-lg overflow-hidden max-w-4xl mx-auto border border-gray-100">
+          <div class="example-header">
             <h3 class="text-xl font-semibold text-gray-800" id="example-title">
               Union Types Example
             </h3>
@@ -939,18 +2166,18 @@ function handleUser(user: User) {
               Function that accepts both string and number types and returns different results based on the input type.
             </p>
           </div>
-          <div class="p-6 bg-gray-800 text-white">
+          <div class="example-code bg-gray-800 text-white">
             <pre
               class="code-block"
-            ><code class="language-typescript" id="example-code">function reLengthOrNumber(name: string | number): number {
-    if (typeof name === "string") {
-        return name.length;
+            ><code class="language-typescript" id="example-code">function processInput(input: string | number): number {
+    if (typeof input === "string") {
+        return input.length;
     } else {
-        return name * name;
+        return input * input;
     }
 }</code></pre>
           </div>
-          <div class="p-6 border-t">
+          <div class="example-actions p-6 border-t">
             <div
               class="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4"
             >
@@ -989,12 +2216,15 @@ function handleUser(user: User) {
                 <i class="fab fa-typescript text-blue-400 mr-2"></i>
                 <span>TypeScript Editor</span>
               </div>
-              <div class="flex space-x-2">
+              <div class="flex space-x-2 editor-actions">
                 <button class="text-sm bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded" onclick="formatCode()">
                   Format
                 </button>
                 <button class="text-sm bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded" onclick="compileCode()">
                   Run
+                </button>
+                <button class="text-sm bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded" onclick="clearEditor()">
+                  Clear
                 </button>
               </div>
             </div>
@@ -1032,7 +2262,7 @@ console.log(processInput(3.14159));</textarea>
             </div>
           </div>
 
-          <div class="bg-gray-100 rounded-xl shadow-lg overflow-hidden">
+          <div class="output-container bg-gray-100 rounded-xl shadow-lg overflow-hidden">
             <div class="p-4 bg-gray-200 text-gray-800 font-medium">
               <div class="flex items-center justify-between">
                 <span>Output</span>
@@ -1041,9 +2271,9 @@ console.log(processInput(3.14159));</textarea>
                 </button>
               </div>
             </div>
-            <div class="p-4">
+            <div class="p-4 h-72">
               <pre
-                class="h-72 bg-white p-4 rounded-lg overflow-auto"
+                class="h-full bg-white p-4 rounded-lg overflow-auto"
               ><code id="output-code" class="text-sm">// Output will appear here</code></pre>
             </div>
             <div class="p-4 border-t border-gray-300 bg-gray-50">
@@ -1073,7 +2303,12 @@ console.log(processInput(3.14159));</textarea>
         </div>
         <div class="chat-messages" id="chat-messages">
           <div class="message bot-message">
-            Hi there! I'm your TypeScript assistant. How can I help you with TypeScript today?
+            Hi there! I'm your TypeScript assistant. Ask me about TypeScript features, syntax, or best practices. Try asking:
+            <ul class="mt-2 ml-4 list-disc">
+              <li>"What are union types?"</li>
+              <li>"Show me an example of generics"</li>
+              <li>"How do type guards work?"</li>
+            </ul>
           </div>
         </div>
         <div class="chat-input">
@@ -1115,7 +2350,7 @@ console.log(processInput(3.14159));</textarea>
               </li>
               <li>
                 <a href="#tryit" class="text-gray-400 hover:text-white"
-                  >Try It</a
+                  >Playground</a
                 >
               </li>
               <li>
@@ -1159,8 +2394,7 @@ console.log(processInput(3.14159));</textarea>
         </div>
       </div>
     </footer>
- <!-- footer end -->
-  <!-- script start -->
+
     <script>
       // Initialize syntax highlighting
       hljs.highlightAll();
@@ -1171,17 +2405,17 @@ console.log(processInput(3.14159));</textarea>
           title: "Union Types Example",
           description:
             "Function that accepts both string and number types and returns different results based on the input type.",
-          code: `function reLengthOrNumber(name: string | number): number {
-    if (typeof name === "string") {
-        return name.length;
+          code: `function processInput(input: string | number): number {
+    if (typeof input === "string") {
+        return input.length;
     } else {
-        return name * name;
+        return input * input;
     }
 }`,
           run: (input) => {
             try {
               const parsedInput = isNaN(input) ? input : Number(input);
-              return reLengthOrNumber(parsedInput);
+              return processInput(parformedInput);
             } catch (e) {
               return "Error: " + e.message;
             }
@@ -1256,19 +2490,19 @@ const checkCat = (obj: any): string => {
           title: "Type Assertions Example",
           description:
             "Using type assertions to tell the compiler to treat a value as a specific type.",
-          code: `const simpleOfMixedData = (mixedData: string | number) => {
+          code: `const processData = (mixedData: string | number) => {
     if (typeof mixedData === "string") {
         const convertNumber = parseFloat(mixedData) * 1000;
-        return \`this is : \${convertNumber}\`;
+        return \`String converted to number: \${convertNumber}\`;
     }
     if (typeof mixedData === "number") {
-        return mixedData * 1000;
+        return \`Number multiplied by 1000: \${mixedData * 1000}\`;
     }
 }`,
           run: (input) => {
             try {
               const parsedInput = isNaN(input) ? input : Number(input);
-              return simpleOfMixedData(parsedInput);
+              return processData(parsedInput);
             } catch (e) {
               return "Error: " + e.message;
             }
@@ -1306,6 +2540,41 @@ const strings: string[] = ['apple', "banana", "cherry", "data", "apple"];`,
             }
           },
         },
+        {
+          title: "Decorators Example",
+          description:
+            "Using decorators to add metadata and modify class behavior.",
+          code: `function log(target: any, key: string, descriptor: PropertyDescriptor) {
+    const originalMethod = descriptor.value;
+    
+    descriptor.value = function(...args: any[]) {
+        console.log(\`Calling \${key} with args: \${JSON.stringify(args)}\`);
+        const result = originalMethod.apply(this, args);
+        console.log(\`\${key} returned: \${JSON.stringify(result)}\`);
+        return result;
+    };
+    
+    return descriptor;
+}
+
+class Calculator {
+    @log
+    add(x: number, y: number): number {
+        return x + y;
+    }
+}
+
+const calc = new Calculator();
+console.log(calc.add(5, 3));`,
+          run: (input) => {
+            try {
+              // This is a simplified version since we can't actually run decorators in this context
+              return "Decorators are a compile-time feature. Check the console for output if running in a proper TypeScript environment.";
+            } catch (e) {
+              return "Error: " + e.message;
+            }
+          },
+        },
       ];
 
       let currentExample = 0;
@@ -1320,14 +2589,14 @@ const strings: string[] = ['apple', "banana", "cherry", "data", "apple"];`,
         document.getElementById("example-description").textContent =
           example.description;
         document.getElementById("example-code").textContent = example.code;
-        document.getElementById("example-input").placeholder =
-          currentExample === 1
-            ? "Enter 'withAddress' or anything else"
-            : currentExample === 2
-            ? "Enter 'cat' or anything else"
-            : currentExample === 4
-            ? "Enter 'number' or anything else"
-            : "Enter a string or number";
+        
+        // Update input placeholder based on example
+        let placeholder = "Enter a value";
+        if (currentExample === 1) placeholder = "Enter 'withAddress' or anything else";
+        if (currentExample === 2) placeholder = "Enter 'cat' or anything else";
+        if (currentExample === 4) placeholder = "Enter 'number' or anything else";
+        
+        document.getElementById("example-input").placeholder = placeholder;
 
         // Update tabs
         const tabs = document.querySelectorAll(".tab");
@@ -1360,7 +2629,8 @@ const strings: string[] = ['apple', "banana", "cherry", "data", "apple"];`,
             compilerOptions: {
               target: window.ts.ScriptTarget.ES2015,
               module: window.ts.ModuleKind.CommonJS,
-              strict: true
+              strict: true,
+              experimentalDecorators: true
             }
           });
           
@@ -1407,6 +2677,13 @@ const strings: string[] = ['apple', "banana", "cherry", "data", "apple"];`,
           codeElement.value = formattedCode;
         } catch (e) {
           console.error("Error formatting code:", e);
+        }
+      }
+
+      // Clear editor
+      function clearEditor() {
+        if (confirm("Are you sure you want to clear the editor?")) {
+          document.getElementById("typescript-code").value = "";
         }
       }
 
@@ -1462,6 +2739,7 @@ const strings: string[] = ['apple', "banana", "cherry", "data", "apple"];`,
         
         if (chatbotOpen) {
           chatbotWindow.classList.add('open');
+          document.getElementById('chat-input').focus();
         } else {
           chatbotWindow.classList.remove('open');
         }
@@ -1515,29 +2793,64 @@ const strings: string[] = ['apple', "banana", "cherry", "data", "apple"];`,
       function getBotResponse(message) {
         const lowerMessage = message.toLowerCase();
         
-        if (lowerMessage.includes('union') || lowerMessage.includes('type')) {
-          return `Union types allow a value to be one of several types. You define them using the pipe character (|). For example: <code>type ID = string | number;</code>. This is useful when a value can be of multiple types.`;
-        } else if (lowerMessage.includes('generic')) {
-          return `Generics enable creating reusable components that work with multiple types. They provide type variables that can be used to capture types. For example: <code>function identity&lt;T&gt;(arg: T): T { return arg; }</code>`;
-        } else if (lowerMessage.includes('guard') || lowerMessage.includes('narrow')) {
-          return `Type guards are expressions that perform runtime checks to narrow down types. You can use typeof, instanceof, or custom type guard functions with a type predicate. For example: <code>function isString(value: any): value is string { return typeof value === "string"; }</code>`;
-        } else if (lowerMessage.includes('optional') || lowerMessage.includes('chain')) {
-          return `Optional chaining (?.) allows safe access to nested properties without worrying about null/undefined. For example: <code>const city = user?.address?.city;</code>. It short-circuits and returns undefined if any part is null/undefined.`;
-        } else if (lowerMessage.includes('assertion') || lowerMessage.includes('cast')) {
-          return `Type assertions tell the compiler to treat a value as a specific type. Use the as syntax: <code>let value = someValue as string;</code>. This is useful when you know more about the type than TypeScript does.`;
-        } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
-          return `Hello! I'm your TypeScript assistant. Ask me about TypeScript features like union types, generics, type guards, optional chaining, or type assertions.`;
-        } else {
-          return `I'm not sure how to answer that. Try asking about TypeScript features like union types, generics, type guards, optional chaining, or type assertions.`;
+        // Union types
+        if (lowerMessage.includes('union') || lowerMessage.includes('multiple type')) {
+          return `Union types allow a value to be one of several types. You define them using the pipe character (|). For example: <code>type ID = string | number;</code>. This is useful when a value can be of multiple types, like API responses where a field could be a string, number, or null.`;
+        } 
+        // Generics
+        else if (lowerMessage.includes('generic') || lowerMessage.includes('reusable')) {
+          return `Generics enable creating reusable components that work with multiple types. They provide type variables that can be used to capture types. For example: <code>function identity&lt;T&gt;(arg: T): T { return arg; }</code>. This allows the function to work with any type while maintaining type safety.`;
+        } 
+        // Type guards
+        else if (lowerMessage.includes('guard') || lowerMessage.includes('narrow') || lowerMessage.includes('runtime check')) {
+          return `Type guards are expressions that perform runtime checks to narrow down types. You can use typeof, instanceof, or custom type guard functions with a type predicate. For example: <code>function isString(value: any): value is string { return typeof value === "string"; }</code>. This helps TypeScript understand the type within conditional blocks.`;
+        } 
+        // Optional chaining
+        else if (lowerMessage.includes('optional') || lowerMessage.includes('chain') || lowerMessage.includes('safe access')) {
+          return `Optional chaining (?.) allows safe access to nested properties without worrying about null/undefined. For example: <code>const city = user?.address?.city;</code>. It short-circuits and returns undefined if any part is null/undefined. This eliminates the need for verbose null checks.`;
+        } 
+        // Type assertions
+        else if (lowerMessage.includes('assertion') || lowerMessage.includes('cast') || lowerMessage.includes('tell compiler')) {
+          return `Type assertions tell the compiler to treat a value as a specific type. Use the as syntax: <code>let value = someValue as string;</code>. This is useful when you know more about the type than TypeScript does, like when working with DOM elements: <code>const input = document.getElementById('myInput') as HTMLInputElement;</code>.`;
+        }
+        // Decorators
+        else if (lowerMessage.includes('decorator') || lowerMessage.includes('annotation') || lowerMessage.includes('metadata')) {
+          return `Decorators are a special kind of declaration that can be attached to classes, methods, properties, or parameters. They use the form @expression and are an experimental feature. Example: <code>function sealed(constructor: Function) { Object.seal(constructor); Object.seal(constructor.prototype); }</code>. They're commonly used in frameworks like Angular to provide functionality like dependency injection, component definitions, and more.`;
+        }
+        // Advanced types
+        else if (lowerMessage.includes('advanced type') || lowerMessage.includes('mapped') || lowerMessage.includes('conditional')) {
+          return `TypeScript provides advanced types like Mapped Types, Conditional Types, and Template Literal Types. For example, a mapped type: <code>type Readonly&lt;T&gt; = { readonly [P in keyof T]: T[P]; }</code>. Conditional types: <code>type NonNullable&lt;T&gt; = T extends null | undefined ? never : T;</code>. These allow for powerful type transformations.`;
+        }
+        // Modules and namespaces
+        else if (lowerMessage.includes('module') || lowerMessage.includes('namespace') || lowerMessage.includes('import')) {
+          return `Modules and namespaces help organize code. Modules are file-based and use import/export. Namespaces are used to group related code and avoid global scope pollution. Example module: <code>export function add(x: number, y: number) { return x + y; }</code>. Example namespace: <code>namespace Geometry { export function area() { ... } }</code>.`;
+        }
+        // Hello
+        else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+          return `Hello! I'm your TypeScript assistant. Ask me about TypeScript features like union types, generics, type guards, optional chaining, type assertions, decorators, advanced types, or modules and namespaces.`;
+        } 
+        // Default response
+        else {
+          return `I'm not sure how to answer that. Try asking about TypeScript features like:
+          <ul class="mt-2 ml-4 list-disc">
+            <li>Union types</li>
+            <li>Generics</li>
+            <li>Type guards</li>
+            <li>Optional chaining</li>
+            <li>Type assertions</li>
+            <li>Decorators</li>
+            <li>Advanced types</li>
+            <li>Modules and namespaces</li>
+          </ul>`;
         }
       }
 
       // Implement the TypeScript functions for the examples
-      function reLengthOrNumber(name) {
-        if (typeof name === "string") {
-          return name.length;
+      function processInput(input) {
+        if (typeof input === "string") {
+          return input.length;
         } else {
-          return name * name;
+          return input * input;
         }
       }
 
@@ -1563,13 +2876,13 @@ const strings: string[] = ['apple', "banana", "cherry", "data", "apple"];`,
         }
       }
 
-      function simpleOfMixedData(mixedData) {
+      function processData(mixedData) {
         if (typeof mixedData === "string") {
           const convertNumber = parseFloat(mixedData) * 1000;
-          return `this is : ${convertNumber}`;
+          return `String converted to number: ${convertNumber}`;
         }
         if (typeof mixedData === "number") {
-          return mixedData * 1000;
+          return `Number multiplied by 1000: ${mixedData * 1000}`;
         }
       }
 
@@ -1626,6 +2939,5 @@ const strings: string[] = ['apple', "banana", "cherry", "data", "apple"];`,
       // Initialize the first example
       showExample(1);
     </script>
-    <!-- script end -->
-  </body>
+</body>
 </html>
