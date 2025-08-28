@@ -1210,7 +1210,7 @@ function prettyStack() {
 }
 
 // -----------------------------
-// Algorithms — Bit DP optimization example
+// Algorithms — Bit DP Optimization example
 // -----------------------------
 
 // 89. Count subsets with given sum (dp)
