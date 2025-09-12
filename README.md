@@ -151,7 +151,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ###### GitHub: @Kawser420
 
-#### Acknowledgments
+###### Acknowledgments
 
 - TypeScript team for the amazing language
 - Contributors to the open-source libraries used in this project
