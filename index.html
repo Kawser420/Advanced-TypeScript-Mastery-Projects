@@ -3355,7 +3355,6 @@ const calc = new Calculator();
 console.log(calc.add(5, 3));`,
           run: (input) => {
             try {
-              // This is a simplified version since we can't actually run decorators in this context
               return "Decorators are a compile-time feature. Check the console for output if running in a proper TypeScript environment.";
             } catch (e) {
               return "Error: " + e.message;
@@ -3457,9 +3456,7 @@ console.log(calc.add(5, 3));`,
         const codeElement = document.getElementById("typescript-code");
         const code = codeElement.value;
         
-        // Simple formatting (in a real application, use a proper formatter)
         try {
-          // Add newlines after braces and semicolons for better readability
           let formattedCode = code
             .replace(/(\{)(?!\s)/g, '$1 ')
             .replace(/(\})(?!\s)/g, '$1 ')

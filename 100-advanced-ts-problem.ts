@@ -1,5 +1,5 @@
 // ===============================================================
-// 📘 100 Advanced TypeScript Problem-Solving Examples
+// 100 Advanced TypeScript Problem-Solving Examples
 // Single-file learning resource. Categories included:
 // Algorithms, Data Structures, Functional, Async, Generics, Types, Patterns, Utilities
 // ===============================================================
