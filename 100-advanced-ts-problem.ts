@@ -45,7 +45,9 @@ class LRUCache<K, V> {
     if (this.map.has(k)) this.map.delete(k);
     else if (this.map.size === this.capacity) {
       const first = this.map.keys().next().value;
-      this.map.delete(first);
+      if (first !== undefined) {
+        this.map.delete(first);
+      }
     }
     this.map.set(k, v);
   }
