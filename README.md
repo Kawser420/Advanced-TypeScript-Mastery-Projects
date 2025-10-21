@@ -1,4 +1,4 @@
-# Advanced TypeScript Problem & Project
+# Advanced TypeScript Mastery Projects
 
 Professional, well-documented repository containing a focused TypeScript demonstration and exercise designed to showcase advanced TypeScript techniques, problem-solving skill, and clean project structure.
 
@@ -162,16 +162,16 @@ For small portfolio edits (formatting, README improvements), a direct PR is fine
 
 I can implement any of these follow-ups on request.
 
-## License
+### License
 
 This repository inherits the license in the project root. If you need a specific license (MIT, Apache-2.0, etc.), tell me and I will add or update the `LICENSE` file.
 
-## Contact / Maintainer
+### Contact / Maintainer
 
 Maintainer: Kawser420
 
 - GitHub: https://github.com/Kawser420
-- Project: advanced-ts-problem-and-project
+- Project: Advanced TypeScript Mastery Projects
 
 If you'd like the README customized for a specific audience (hiring manager, open-source users, or commercial clients), tell me the target and I will tailor tone, length, and included artifacts accordingly.
 
