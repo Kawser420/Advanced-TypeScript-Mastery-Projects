@@ -1,14 +1,14 @@
-// ===============================================================
-// 100 Advanced TypeScript Problem-Solving Examples
+// ====================================================================================================
+// 100 Advanced TypeScript Problem-Solving Examples START
 // Single-file learning resource. Categories included:
 // Algorithms, Data Structures, Functional, Async, Generics, Types, Patterns, Utilities
-// ===============================================================
+// ====================================================================================================
 
-// -----------------------------
-// Utilities & Helpers
-// -----------------------------
+// ==========================================================================
+// Utilities And Helpers
+// ==========================================================================
 
-// 1. Assert helper (narrowing)
+// 1. Assert helper---> narrowing
 function assert(condition: any, msg = "Assertion failed"): asserts condition {
   if (!condition) throw new Error(msg);
 }
@@ -30,7 +30,7 @@ function memoize<T extends (...args: any[]) => any>(fn: T): T {
   }) as T;
 }
 
-// 4. LRU Cache (small)
+// 4. LRU Cache---> small
 class LRUCache<K, V> {
   private map = new Map<K, V>();
   constructor(private capacity: number) {}
@@ -53,11 +53,11 @@ class LRUCache<K, V> {
   }
 }
 
-// -----------------------------
-// Algorithms — Sorting / Searching
-// -----------------------------
+// ==============================================================================================
+// Algorithms --> Sorting / Searching
+// ==============================================================================================
 
-// 5. QuickSort (in-place)
+// 5. QuickSort----------> in-place
 function quickSort<T>(arr: T[], left = 0, right = arr.length - 1): T[] {
   if (left >= right) return arr;
   const pivot = arr[Math.floor((left + right) / 2)];
@@ -66,7 +66,7 @@ function quickSort<T>(arr: T[], left = 0, right = arr.length - 1): T[] {
   while (i <= j) {
     while ((arr[i] as any) < (pivot as any)) i++;
     while ((arr[j] as any) > (pivot as any)) j--;
-    if (i <= j) [arr[i++], arr[j--]] = [arr[j + 1 - 1], arr[i - 1 + 1]]; // swap without temp
+    if (i <= j) [arr[i++], arr[j--]] = [arr[j + 1 - 1], arr[i - 1 + 1]];
   }
   if (left < j) quickSort(arr, left, j);
   if (i < right) quickSort(arr, i, right);
@@ -87,7 +87,7 @@ function mergeSort<T>(arr: T[]): T[] {
   return res.concat(left.slice(i)).concat(right.slice(j));
 }
 
-// 7. Binary Search (iterative)
+// 7. Binary Search----------------------> iterative
 function binarySearch<T>(arr: T[], value: T): number {
   let l = 0,
     r = arr.length - 1;
@@ -100,11 +100,11 @@ function binarySearch<T>(arr: T[], value: T): number {
   return -1;
 }
 
-// -----------------------------
-// Algorithms — Dynamic Programming
-// -----------------------------
+// =============================================================================================
+// Algorithms-------> Dynamic Programming
+// =============================================================================================
 
-// 8. Fibonacci (DP bottom-up)
+// 8. Fibonacci----------> DP bottom-up
 function fibDP(n: number): number {
   if (n <= 1) return n;
   const dp = [0, 1];
@@ -112,7 +112,7 @@ function fibDP(n: number): number {
   return dp[n];
 }
 
-// 9. Longest Increasing Subsequence (n log n)
+// 9. Longest Increasing Subsequence----------------> n log n
 function lis(nums: number[]): number {
   const tails: number[] = [];
   for (const x of nums) {
@@ -128,7 +128,7 @@ function lis(nums: number[]): number {
   return tails.length;
 }
 
-// 10. Knapsack (0/1 DP)
+// 10. Knapsack-----------------------------> 0/1 DP
 function knapsack(
   weights: number[],
   values: number[],
@@ -142,9 +142,9 @@ function knapsack(
   return dp[capacity];
 }
 
-// -----------------------------
-// Data Structures — Linked Lists / Trees / Heaps / Tries
-// -----------------------------
+// ===================================================================================================
+// Data Structures----------> Linked Lists / Trees / Heaps / Tries
+// ====================================================================================================
 
 // 11. Singly Linked List with reverse
 class SinglyNode<T> {
@@ -173,7 +173,7 @@ class SinglyLinkedList<T> {
   }
 }
 
-// 12. Doubly Linked List (partial)
+// 12. Doubly Linked List--------> partial
 class DNode<T> {
   constructor(
     public val: T,
@@ -195,7 +195,7 @@ class DoublyLinkedList<T> {
   }
 }
 
-// 13. Binary Search Tree (insert, find)
+// 13. Binary Search Tree--------> insert, find
 class BSTNode<T> {
   constructor(
     public val: T,
@@ -238,7 +238,7 @@ class BST<T> {
   }
 }
 
-// 14. Min-Heap (array-based)
+// 14. Min-Heap--> array-based
 class MinHeap<T> {
   private data: T[] = [];
   constructor(
@@ -291,7 +291,7 @@ class MinHeap<T> {
   }
 }
 
-// 15. Trie (prefix tree)
+// 15. Trie --> prefix tree
 class TrieNode {
   children = new Map<string, TrieNode>();
   end = false;
@@ -316,9 +316,9 @@ class Trie {
   }
 }
 
-// -----------------------------
+// =========================================================================================
 // Graph Algorithms
-// -----------------------------
+// =========================================================================================
 
 // 16. BFS (adj list)
 function bfs(adj: Map<number, number[]>, start: number) {
@@ -337,7 +337,7 @@ function bfs(adj: Map<number, number[]>, start: number) {
   return order;
 }
 
-// 17. DFS (recursive)
+// 17. DFS----------------> recursive
 function dfsRecursive(
   adj: Map<number, number[]>,
   start: number,
@@ -351,7 +351,7 @@ function dfsRecursive(
   return order;
 }
 
-// 18. Dijkstra (weights >= 0)
+// 18. Dijkstra -----------> weights >= 0
 function dijkstra(n: number, edges: [number, number, number][], src: number) {
   const adj: Map<number, [number, number][]> = new Map();
   for (const [u, v, w] of edges) {
@@ -374,26 +374,26 @@ function dijkstra(n: number, edges: [number, number, number][], src: number) {
   return dist;
 }
 
-// -----------------------------
+// ====================================================================================================
 // Functional / FP helpers
-// -----------------------------
+// ====================================================================================================
 
-// 19. Curry with typed args (simple)
+// 19. Curry with typed args-------> simple
 const curry2 =
   <A, B, R>(fn: (a: A, b: B) => R) =>
   (a: A) =>
   (b: B) =>
     fn(a, b);
 
-// 20. Compose typed (two functions)
+// 20. Compose typed----------> two functions
 const compose2 =
   <A, B, C>(f: (b: B) => C, g: (a: A) => B) =>
   (x: A) =>
     f(g(x));
 
-// -----------------------------
-// Advanced Types — Utility & Mapped Types
-// -----------------------------
+// ======================================================================
+// Advanced Types --> Utility and Mapped Types
+// ======================================================================
 
 // 21. Flatten tuple
 type Flatten<T> = T extends (infer U)[] ? U : T;
@@ -404,17 +404,17 @@ type TupleToUnion<T extends any[]> = T[number];
 // 23. Index signature keys
 type Keys<T> = keyof T;
 
-// 24. DeepPartial already shown earlier — use again
+// 24. DeepPartial
 type DeepPartial2<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial2<T[P]> : T[P];
 };
 
-// 25. Conditional type infer example
+// 25. Conditional type infer
 type ReturnTypeOf<T> = T extends (...a: any[]) => infer R ? R : any;
 
-// -----------------------------
-// Generics — Advanced Usage
-// -----------------------------
+// ====================================================================================================
+// Generics--> Advanced Usage
+// ====================================================================================================
 
 // 26. Generic Factory
 function createInstance<T>(c: new (...args: any[]) => T, ...args: any[]): T {
@@ -431,9 +431,9 @@ function mapObj<T, U>(
   return out;
 }
 
-// -----------------------------
-// Concurrency & Async Patterns
-// -----------------------------
+// ====================================================================================================
+// Concurrency and Async Patterns
+// ====================================================================================================
 
 // 28. Debounce
 function debounce<T extends (...args: any[]) => any>(fn: T, ms = 300) {
@@ -456,7 +456,7 @@ function throttle<T extends (...args: any[]) => any>(fn: T, ms = 300) {
   };
 }
 
-// 30. Semaphore (simple)
+// 30. Semaphore ---> simple
 class Semaphore {
   private waiting: (() => void)[] = [];
   private count: number;
@@ -480,9 +480,9 @@ class Semaphore {
   }
 }
 
-// -----------------------------
+// ====================================================================================================
 // Design Patterns
-// -----------------------------
+// ====================================================================================================
 
 // 31. Factory Pattern
 class Product {
@@ -503,7 +503,7 @@ class Context {
   }
 }
 
-// 33. Decorator (method decorator example)
+// 33. Decorator method decorator example
 function log(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
   const orig = descriptor.value;
   descriptor.value = function (...args: any[]) {
@@ -512,9 +512,9 @@ function log(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
   };
 }
 
-// -----------------------------
-// Algorithms — Combinatorics / Backtracking
-// -----------------------------
+// ====================================================================================================
+// Algorithms ----> Combinatorics / Backtracking
+// ====================================================================================================
 
 // 34. Permutations
 function permutations<T>(arr: T[]): T[][] {
@@ -535,7 +535,7 @@ function permutations<T>(arr: T[]): T[][] {
   return res;
 }
 
-// 35. Combinations (k)
+// 35. Combinations--> k
 function combinations<T>(arr: T[], k: number): T[][] {
   const res: T[][] = [];
   const cur: T[] = [];
@@ -554,9 +554,9 @@ function combinations<T>(arr: T[], k: number): T[][] {
   return res;
 }
 
-// -----------------------------
+// ====================================================================================================
 // Parsing / Regex / Strings
-// -----------------------------
+// ====================================================================================================
 
 // 36. Parse query string to object
 function parseQS(qs: string) {
@@ -573,9 +573,9 @@ function parseQS(qs: string) {
 // 37. Template literal types example (simple)
 type EventName<T extends string> = `on${Capitalize<T>}`;
 
-// -----------------------------
+// ====================================================================================================
 // Bitwise / Math Tricks
-// -----------------------------
+// ====================================================================================================
 
 // 38. Check power of two
 const isPowerOfTwo = (n: number) => n > 0 && (n & (n - 1)) === 0;
@@ -590,9 +590,9 @@ function countBits(n: number) {
   return c;
 }
 
-// -----------------------------
-// IO-like (in memory) / Streams
-// -----------------------------
+// ====================================================================================================
+// IO-like --> in memory / Streams
+// ====================================================================================================
 
 // 40. Simple EventEmitter
 class EventEmitter<T extends string | symbol = string> {
@@ -606,9 +606,9 @@ class EventEmitter<T extends string | symbol = string> {
   }
 }
 
-// -----------------------------
+// ====================================================================================================
 // Type-level puzzles
-// -----------------------------
+// ====================================================================================================
 
 // 41. Build tuple of length N (type)
 type BuildTuple<L extends number, T extends any[] = []> = T["length"] extends L
@@ -620,9 +620,9 @@ type Reverse<T extends any[]> = T extends [infer F, ...infer R]
   ? [...Reverse<R>, F]
   : [];
 
-// -----------------------------
+// ====================================================================================================
 // Advanced Generics / Constraints
-// -----------------------------
+// ====================================================================================================
 
 // 43. Constrained generic function
 function pickKeys<T, K extends keyof T>(obj: T, ...keys: K[]): Pick<T, K> {
@@ -631,9 +631,9 @@ function pickKeys<T, K extends keyof T>(obj: T, ...keys: K[]): Pick<T, K> {
   return res;
 }
 
-// -----------------------------
-// Algorithms — Greedy / Interval
-// -----------------------------
+// ====================================================================================================
+// Algorithms ----> Greedy / Interval
+// ====================================================================================================
 
 // 44. Merge Intervals
 function mergeIntervals(intervals: [number, number][]) {
@@ -648,9 +648,9 @@ function mergeIntervals(intervals: [number, number][]) {
   return res;
 }
 
-// -----------------------------
+// ====================================================================================================
 // Security / Validation
-// -----------------------------
+// ====================================================================================================
 
 // 45. Safe JSON parse
 function safeJSON<T = any>(s: string): T | null {
@@ -661,11 +661,11 @@ function safeJSON<T = any>(s: string): T | null {
   }
 }
 
-// -----------------------------
+// ====================================================================================================
 // Misc algorithms
-// -----------------------------
+// ====================================================================================================
 
-// 46. Reservoir Sampling (k=1)
+// 46. Reservoir Sampling---> k=1
 function reservoirSample<T>(iter: Iterable<T>): T | null {
   let i = 0;
   let chosen: T | null = null;
@@ -685,9 +685,9 @@ function shuffle<T>(a: T[]) {
   return a;
 }
 
-// -----------------------------
+// ====================================================================================================
 // Testing helpers / Mocking
-// -----------------------------
+// ====================================================================================================
 
 // 48. Fake timer (very small)
 class FakeTimer {
@@ -697,16 +697,16 @@ class FakeTimer {
   }
 }
 
-// -----------------------------
+// ====================================================================================================
 // Serialization / Deep clone
-// -----------------------------
+// ====================================================================================================
 
 // 49. Deep clone (JSON-safe)
 function deepClone<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj));
 }
 
-// 50. Deep clone with cycles (using WeakMap)
+// 50. Deep clone with cycles ---> using WeakMap
 function deepCloneCycles<T>(obj: T, map = new WeakMap()): T {
   if (obj === null || typeof obj !== "object") return obj;
   if (map.has(obj as any)) return map.get(obj as any);
@@ -716,9 +716,9 @@ function deepCloneCycles<T>(obj: T, map = new WeakMap()): T {
   return copy;
 }
 
-// -----------------------------
-// Advanced Patterns — Proxy / Adapter
-// -----------------------------
+// ====================================================================================================
+// Advanced Patterns ----> Proxy / Adapter
+// ====================================================================================================
 
 // 51. Simple Proxy usage (validation)
 function createValidatedObject<T extends object>(
@@ -734,9 +734,9 @@ function createValidatedObject<T extends object>(
   });
 }
 
-// -----------------------------
+// ====================================================================================================
 // Performance / Profiling Helpers
-// -----------------------------
+// ====================================================================================================
 
 // 52. Time function
 function timeit<T>(fn: () => T) {
@@ -745,9 +745,9 @@ function timeit<T>(fn: () => T) {
   return { duration: Date.now() - s, result: r };
 }
 
-// -----------------------------
+// ====================================================================================================
 // Advanced Recursion / Tail recursion example
-// -----------------------------
+// ====================================================================================================
 
 // 53. Tail-recursive factorial (converted to loop)
 function factorialTail(n: number): number {
@@ -758,9 +758,9 @@ function factorialTail(n: number): number {
   return acc;
 }
 
-// -----------------------------
-// Reactive / Observables (mini)
-// -----------------------------
+// ====================================================================================================
+// Reactive / Observables --> mini
+// ====================================================================================================
 
 // 54. Mini Observable
 class MiniObservable<T> {
@@ -776,9 +776,9 @@ class MiniObservable<T> {
   }
 }
 
-// -----------------------------
+// ====================================================================================================
 // Serialization Types / Branded Types
-// -----------------------------
+// ====================================================================================================
 
 // 55. Branded type pattern
 type UserId = string & { readonly __brand: unique symbol };
@@ -786,9 +786,9 @@ function makeUserId(s: string) {
   return s as UserId;
 }
 
-// -----------------------------
+// ====================================================================================================
 // Algorithmic puzzles
-// -----------------------------
+// ====================================================================================================
 
 // 56. Two-sum (hash)
 function twoSum(nums: number[], target: number): [number, number] | null {
@@ -801,7 +801,7 @@ function twoSum(nums: number[], target: number): [number, number] | null {
   return null;
 }
 
-// 57. Product of array except self
+// 57. Product of array
 function productExceptSelf(nums: number[]) {
   const n = nums.length;
   const out = Array(n).fill(1);
@@ -818,9 +818,9 @@ function productExceptSelf(nums: number[]) {
   return out;
 }
 
-// -----------------------------
-// Graph — Topological Sort
-// -----------------------------
+// ====================================================================================================
+// Graph ----> Topological Sort
+// ====================================================================================================
 
 // 58. Topological sort (Kahn)
 function topoSort(n: number, edges: [number, number][]) {
@@ -841,9 +841,9 @@ function topoSort(n: number, edges: [number, number][]) {
   return res.length === n ? res : null; // null on cycle
 }
 
-// -----------------------------
+// ====================================================================================================
 // Caching / Persistence
-// -----------------------------
+// ====================================================================================================
 
 // 59. Simple persistent map (immutable)
 function persistentSet<K, V>(map: Map<K, V>, k: K, v: V) {
@@ -852,9 +852,9 @@ function persistentSet<K, V>(map: Map<K, V>, k: K, v: V) {
   return nm;
 }
 
-// -----------------------------
-// Filesystem-like Mock (in-memory)
-// -----------------------------
+// ====================================================================================================
+// Filesystem-like Mock-----> in-memory
+// ====================================================================================================
 
 // 60. In-memory file system (very small)
 class InMemoryFS {
@@ -867,9 +867,9 @@ class InMemoryFS {
   }
 }
 
-// -----------------------------
-// Security / Crypto helpers (not real crypto)
-// -----------------------------
+// ====================================================================================================
+// Security / Crypto helpers ----> not real crypto
+// ====================================================================================================
 
 // 61. Simple HMAC-like (not secure)
 function simpleHash(s: string) {
@@ -878,9 +878,9 @@ function simpleHash(s: string) {
   return String(h);
 }
 
-// -----------------------------
+// ====================================================================================================
 // Scheduling / Rate limiting
-// -----------------------------
+// ====================================================================================================
 
 // 62. Rate limiter (token bucket)
 class TokenBucket {
@@ -905,18 +905,18 @@ class TokenBucket {
   }
 }
 
-// -----------------------------
+// ====================================================================================================
 // Heuristics / Searching
-// -----------------------------
+// ====================================================================================================
 
 // 63. A* skeleton (manhattan)
 function heuristic(a: [number, number], b: [number, number]) {
   return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
 }
 
-// -----------------------------
+// ====================================================================================================
 // CLI / Args parsing helper
-// -----------------------------
+// ====================================================================================================
 
 // 64. Simple argv parser
 function parseArgs(argv: string[]) {
@@ -928,18 +928,18 @@ function parseArgs(argv: string[]) {
   return out;
 }
 
-// -----------------------------
-// Advanced Type-level — String manipulation
-// -----------------------------
+// ====================================================================================================
+// Advanced Type-level ----> String manipulation
+// ====================================================================================================
 
-// 65. ToUpperCamelCase (type)
+// 65. ToUpperCamelCase----> type
 type ToUpperCamel<S extends string> = S extends `${infer F}-${infer R}`
   ? `${Capitalize<F>}${ToUpperCamel<Capitalize<R>>}`
   : Capitalize<S>;
 
-// -----------------------------
-// Concurrency — Promise queue
-// -----------------------------
+// ====================================================================================================
+// Concurrency ----> Promise queue
+// ====================================================================================================
 
 // 66. Promise pool
 async function promisePool<T>(tasks: (() => Promise<T>)[], n = 2) {
@@ -957,9 +957,9 @@ async function promisePool<T>(tasks: (() => Promise<T>)[], n = 2) {
   return res;
 }
 
-// -----------------------------
-// Reflection / Metadata (experimental)
-// -----------------------------
+// ====================================================================================================
+// Reflection / Metadata ----> experimental
+// ====================================================================================================
 
 // 67. Simple metadata store using WeakMap
 const metadata = new WeakMap<object, Map<string, any>>();
@@ -975,9 +975,9 @@ function getMeta(obj: object, k: string) {
   return metadata.get(obj)?.get(k);
 }
 
-// -----------------------------
-// Math — Gaussian / Normal approx (Box–Muller)
-// -----------------------------
+// ====================================================================================================
+// Math ----> Gaussian / Normal approx ----> Box–Muller
+// ====================================================================================================
 
 // 68. Random normal generator
 function randNormal() {
@@ -988,9 +988,9 @@ function randNormal() {
   return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
 }
 
-// -----------------------------
-// Algorithms — String matching
-// -----------------------------
+// ====================================================================================================
+// Algorithms ----> String matching
+// ====================================================================================================
 
 // 69. KMP prefix function
 function kmpPrefix(s: string) {
@@ -1005,9 +1005,9 @@ function kmpPrefix(s: string) {
   return pi;
 }
 
-// -----------------------------
-// Misc — small handy functions
-// -----------------------------
+// ====================================================================================================
+// Misc ----> small handy functions
+// ====================================================================================================
 
 // 70. GroupBy
 function groupBy<T, K extends string | number>(arr: T[], keyFn: (a: T) => K) {
@@ -1018,27 +1018,27 @@ function groupBy<T, K extends string | number>(arr: T[], keyFn: (a: T) => K) {
   }, {} as Record<string, T[]>);
 }
 
-// -----------------------------
-// Advanced Patterns — CQRS-like simple separation
-// -----------------------------
+// ====================================================================================================
+// Advanced Patterns ----> CQRS-like simple separation
+// ====================================================================================================
 
 // 71. Command pattern (simple)
 class Command {
   constructor(public execute: () => void) {}
 }
 
-// -----------------------------
+// ====================================================================================================
 // Type Guards / Narrowing
-// -----------------------------
+// ====================================================================================================
 
 // 72. isString guard
 function isString(v: any): v is string {
   return typeof v === "string";
 }
 
-// -----------------------------
-// Algorithms — Median of two sorted arrays (hard)
-// -----------------------------
+// ====================================================================================================
+// Algorithms ----> Median of two sorted arrays -----> hard
+// ====================================================================================================
 
 // 73. Median of two sorted arrays (merge-like)
 function medianTwoSorted(a: number[], b: number[]) {
@@ -1062,13 +1062,9 @@ function medianTwoSorted(a: number[], b: number[]) {
   return null;
 }
 
-// -----------------------------
-// Practical — CSV Parser (small)
-// -----------------------------
-
-// -----------------------------
-// Converters — RGB / HEX
-// -----------------------------
+// ------------------------------------------------
+//  74 To 76 missing
+// ------------------------------------------------
 
 // 77. hex to rgb
 function hexToRgb(hex: string) {
@@ -1091,9 +1087,9 @@ function longestUniqueSubstr(s: string) {
   return max;
 }
 
-// -----------------------------
+// ====================================================================================================
 // Protocols / Interfaces
-// -----------------------------
+// ====================================================================================================
 
 // 80. Tagged union example
 type Shape =
@@ -1104,18 +1100,18 @@ function area(s: Shape) {
   return s.w * s.h;
 }
 
-// -----------------------------
-// Misc — Date helpers
-// -----------------------------
+// ====================================================================================================
+// Misc ----> Date helpers
+// ====================================================================================================
 
 // 81. Format yyyy-mm-dd
 function toISODate(d = new Date()) {
   return d.toISOString().slice(0, 10);
 }
 
-// -----------------------------
-// Advanced Types — Recursive type constraints
-// -----------------------------
+// ====================================================================================================
+// Advanced Types ----> Recursive type constraints
+// ====================================================================================================
 
 // 82. JSON type
 type JSONValue = string | number | boolean | null | JSONObject | JSONArray;
@@ -1124,11 +1120,11 @@ interface JSONObject {
 }
 interface JSONArray extends Array<JSONValue> {}
 
-// -----------------------------
-// Algorithms — Bitmask DP (subset sums)
-// -----------------------------
+// ====================================================================================================
+// Algorithms ----> Bitmask DP ---> subset sums
+// ====================================================================================================
 
-// 83. Subset sum (bitmask DP for small n)
+// 83. Subset sum --> bitmask DP for small n
 function subsetSum(nums: number[], target: number) {
   const n = nums.length;
   for (let mask = 0; mask < 1 << n; mask++) {
@@ -1139,9 +1135,9 @@ function subsetSum(nums: number[], target: number) {
   return false;
 }
 
-// -----------------------------
-// Safety — Input sanitizer (simple)
-// -----------------------------
+// ====================================================================================================
+// Safety ----> Input sanitizer --> simple
+// ====================================================================================================
 
 // 84. Escape HTML
 function escapeHTML(s: string) {
@@ -1160,9 +1156,9 @@ function escapeHTML(s: string) {
   );
 }
 
-// -----------------------------
-// Algorithms — Heap problems
-// -----------------------------
+// ====================================================================================================
+// Algorithms ----> Heap problems
+// ====================================================================================================
 
 // 85. K smallest elements
 function kSmallest(nums: number[], k: number) {
@@ -1173,9 +1169,9 @@ function kSmallest(nums: number[], k: number) {
   return res;
 }
 
-// -----------------------------
-// Patterns — Visitor (example)
-// -----------------------------
+// ====================================================================================================
+// Patterns ----> Visitor
+// ====================================================================================================
 
 // 86. Visitor pattern skeleton
 interface Visitable {
@@ -1186,9 +1182,9 @@ interface Visitor {
   visitB?: (b: any) => void;
 }
 
-// -----------------------------
-// Algorithms — Reservoir for k
-// -----------------------------
+// ====================================================================================================
+// Algorithms ----> Reservoir for k
+// ====================================================================================================
 
 // 87. Reservoir sampling k
 function reservoirK<T>(iter: Iterable<T>, k: number) {
@@ -1202,20 +1198,20 @@ function reservoirK<T>(iter: Iterable<T>, k: number) {
   return res;
 }
 
-// -----------------------------
-// Debugging — Source map like helper (dummy)
-// -----------------------------
+// ====================================================================================================
+// Debugging ----> Source map like helper ---> dummy
+// ====================================================================================================
 
 // 88. simple stack trace map
 function prettyStack() {
   return new Error().stack;
 }
 
-// -----------------------------
-// Algorithms — Bit DP Optimization example
-// -----------------------------
+// ====================================================================================================
+// Algorithms ----> Bit DP Optimization
+// ====================================================================================================
 
-// 89. Count subsets with given sum (dp)
+// 89. Count subsets with given sum ---> dp
 function countSubsets(nums: number[], target: number) {
   const dp = Array(target + 1).fill(0);
   dp[0] = 1;
@@ -1224,9 +1220,9 @@ function countSubsets(nums: number[], target: number) {
   return dp[target];
 }
 
-// -----------------------------
-// Web-related helpers (small)
-// -----------------------------
+// ====================================================================================================
+// Web-related helpers --> small
+// ====================================================================================================
 
 // 90. Cookie parser
 function parseCookies(header: string) {
@@ -1240,9 +1236,9 @@ function parseCookies(header: string) {
     }, {});
 }
 
-// -----------------------------
-// Algorithms — String compression
-// -----------------------------
+// ====================================================================================================
+// Algorithms ----> String compression
+// ====================================================================================================
 
 // 91. Run-length encoding
 function rle(s: string) {
@@ -1261,9 +1257,9 @@ function rle(s: string) {
   return out;
 }
 
-// -----------------------------
+// ====================================================================================================
 // Realtime / Websocket-like small helper
-// -----------------------------
+// ====================================================================================================
 
 // 92. Heartbeat manager (keepalive)
 class Heartbeat {
@@ -1276,9 +1272,9 @@ class Heartbeat {
   }
 }
 
-// -----------------------------
+// ====================================================================================================
 // AI / ML small utilities
-// -----------------------------
+// ====================================================================================================
 
 // 93. Cosine similarity (vectors)
 function dot(a: number[], b: number[]) {
@@ -1291,18 +1287,18 @@ function cosine(a: number[], b: number[]) {
   return dot(a, b) / (magnitude(a) * magnitude(b));
 }
 
-// -----------------------------
-// Type Narrowing — Exhaustive checks
-// -----------------------------
+// ====================================================================================================
+// Type Narrowing ----> Exhaustive checks
+// ====================================================================================================
 
 // 94. never-exhaustive helper
 function assertNever(x: never): never {
   throw new Error("Unexpected object: " + x);
 }
 
-// -----------------------------
-// System — PID-like Generator
-// -----------------------------
+// ====================================================================================================
+// System ----> PID-like Generator
+// ====================================================================================================
 
 // 95. Simple unique id
 let _id = 0;
@@ -1310,9 +1306,9 @@ function uid() {
   return (++_id).toString(36);
 }
 
-// ----------------------------
-// Advanced — Matrix multiplication (naive)
-// ----------------------------
+// -----------------------------------------------------------------------------
+// Advanced ----> Matrix multiplication---> naive
+// -----------------------------------------------------------------------------
 
 // 96. Matrix multiply
 function matMul(A: number[][], B: number[][]) {
@@ -1326,9 +1322,9 @@ function matMul(A: number[][], B: number[][]) {
   return C;
 }
 
-// -----------------------------
-// Algorithms — Balanced parentheses (stack)
-// -----------------------------
+// ====================================================================================================
+// Algorithms ----> Balanced parentheses ---> stack
+// ====================================================================================================
 
 // 97. Valid parentheses
 function validParentheses(s: string) {
@@ -1343,9 +1339,9 @@ function validParentheses(s: string) {
   return stack.length === 0;
 }
 
-// -----------------------------
-// Misc practical — Retry with backoff
-// -----------------------------
+// ====================================================================================================
+// Misc practical ----> Retry with backoff
+// ====================================================================================================
 
 // 98. Exponential backoff retry
 async function retryBackoff<T>(fn: () => Promise<T>, retries = 5, base = 100) {
@@ -1359,18 +1355,18 @@ async function retryBackoff<T>(fn: () => Promise<T>, retries = 5, base = 100) {
   throw new Error("Failed after retries");
 }
 
-// -----------------------------
-// Very advanced TS type trick (template literal mapping)
-// -----------------------------
+// ====================================================================================================
+// Very advanced TS type trick --------> template literal mapping
+// ====================================================================================================
 
 // 99. Kebab to Camel (type level)
 type KebabToCamel<S extends string> = S extends `${infer P}-${infer R}`
   ? `${P}${Capitalize<KebabToCamel<R>>}`
   : S;
 
-// -----------------------------
-// Example — Combine multiple utilities
-// -----------------------------
+// ====================================================================================================
+// Example ----> Combine multiple utilities
+// ====================================================================================================
 
 // 100. Example function combining several utilities
 function analyzeNumbers(nums: number[]) {
@@ -1396,7 +1392,7 @@ function analyzeNumbers(nums: number[]) {
 }
 
 // ===============================================================
-// Example quick-run outputs (small tests)
+// Example quick-run outputs ---> small tests
 // ===============================================================
 console.log("fibDP(10)=", fibDP(10));
 console.log("quickSort of [3,1,2]=", quickSort([3, 1, 2]));
@@ -1405,3 +1401,7 @@ console.log(
   'longestUniqueSubstr("abcabcbb")=',
   longestUniqueSubstr("abcabcbb")
 );
+
+// =======================================================================================================
+// 100 Advanced TypeScript Problem-Solving Examples END
+// =======================================================================================================
