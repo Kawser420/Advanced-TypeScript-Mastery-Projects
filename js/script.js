@@ -1,5 +1,5 @@
 /* ALL JAVASCRIPT CODE STARTS */
-// Syntax highlighting
+// Syntax Highlighting
 hljs.highlightAll();
 
 // Data
@@ -361,7 +361,7 @@ function sendMessage() {
   chatMessages.appendChild(typingIndicator);
   chatMessages.scrollTop = chatMessages.scrollHeight;
 
-  // Simulate AI response After A Delay
+  // Simulate AI Response After A Delay
   setTimeout(() => {
     chatMessages.removeChild(typingIndicator);
 
