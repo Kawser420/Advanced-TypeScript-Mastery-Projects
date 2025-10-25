@@ -2,7 +2,7 @@
 
 Professional, well-documented repository containing a focused TypeScript demonstration and exercise designed to showcase advanced TypeScript techniques, problem-solving skill, and clean project structure.
 
-> Clear, concise, and practical — ideal for technical interviews, portfolio showcases, or client demonstrations.
+> Clear, concise, and practical - ideal for technical interviews, portfolio showcases, or client demonstrations.
 
 ---
 
@@ -31,19 +31,19 @@ The project is deliberately small so reviewers can quickly inspect architecture,
 
 ## Highlights
 
-- Single-file advanced TypeScript problem: `100-advanced-ts-problem.ts` — contains the primary implementation and inline examples.
-- Minimal web runner: `index.html` — lets reviewers open the solution in a browser quickly.
+- Single-file advanced TypeScript problem: `100-advanced-ts-problem.ts` - contains the primary implementation and inline examples.
+- Minimal web runner: `index.html` - lets reviewers open the solution in a browser quickly.
 - Clean, intention-revealing types and comments suitable for code review or client presentation.
 
 ## Repository Structure
 
 **Top-level files you will find:**
 
-- `100-advanced-ts-problem.ts` — The main TypeScript source showing the advanced problem and its solution.
-- `index.html` — Simple web page that can load a compiled JS bundle or demonstrate the output for quick manual inspection.
-- `README.md` — (this file) professional project overview and usage instructions.
+- `100-advanced-ts-problem.ts` - The main TypeScript source showing the advanced problem and its solution.
+- `index.html` - Simple web page that can load a compiled JS bundle or demonstrate the output for quick manual inspection.
+- `README.md` - this file --> professional project overview and usage instructions.
 
-If you expand this repository into a fuller project, recommended additions include a `package.json`, a `tsconfig.json`, unit tests under a `tests/` folder, and CI configuration (GitHub Actions).
+If you expand this repository into a fuller project, recommended additions include a `package.json`, a `tsconfig.json`, unit tests under a `tests/` folder, and CI configuration --> GitHub Actions.
 
 ## Prerequisites
 
@@ -56,7 +56,7 @@ If you expand this repository into a fuller project, recommended additions inclu
 
 - `http-server` (for quick local static hosting)
 
-## Quick Start
+### Quick Start
 
 There are two quick ways to preview the project locally: using Node/TypeScript tooling, or using a static file preview.
 
@@ -77,11 +77,11 @@ npx http-server -p 8080 -c-1
 
 3. Open `index.html` directly in the browser (works if the page only relies on included JS/CSS and not on server-only APIs).
 
-## Running the Example
+### Running the Example
 
 The repository is intentionally minimal. The file `100-advanced-ts-problem.ts` contains both the implementation and a small example harness. Running it with `ts-node` prints sample output to the console. Compiling with `tsc` and opening `index.html` shows the result in a browser context.
 
-**Example expected behavior (summary):**
+**Example expected behavior--> summary:**
 
 - The TypeScript file demonstrates advanced typing patterns and a complete solution for the included problem.
 - Example input and expected output are included in comments and in the file's sample runner function.
@@ -101,7 +101,7 @@ If you would like, I can split the file into modules (e.g., `src/` + `lib/`) and
 
 ### Recommended Development Workflow
 
-- Add a `package.json` and dependencies:
+- **Add a `package.json` and dependencies:**
 
 ```powershell
 npm init -y
@@ -109,7 +109,7 @@ npm i -D typescript ts-node @types/node
 ```
 
 - Add a `tsconfig.json` (basic one can be created with `npx tsc --init`).
-- Add npm scripts to `package.json`:
+- **Add npm scripts to `package.json`:**
 
 ```json
 {
@@ -159,17 +159,17 @@ I can implement any of these follow-ups on request.
 
 ### License
 
-This repository inherits the license in the project root. If you need a specific license (MIT, Apache-2.0), tell me and I will add or update the `LICENSE` file.
+This repository inherits the license in the project root. If you need a specific license (MIT), tell me and I will add or update the `LICENSE` file.
 
 ### Contact / Maintainer
 
-**Maintainer:** Kawser420
+**Maintainer:** go-kawser
 
-- **GitHub:** https://github.com/Kawser420
+- **GitHub:** https://github.com/go-kawser
 - **Project:** Advanced TypeScript Mastery Projects
 
 If you'd like the README customized for a specific audience (hiring manager, open-source users, or commercial clients), tell me the target and I will tailor tone, length, and included artifacts accordingly.
 
 ---
 
-**Thank you for reviewing this project — it's structured to be quick to understand and pleasant to review during interviews or client demos.**
+**Thank you for reviewing this project - it's structured to be quick to understand and pleasant to review during interviews or client demos.**
