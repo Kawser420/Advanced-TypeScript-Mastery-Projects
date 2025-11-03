@@ -143,7 +143,7 @@ Contributions are welcome. Suggested steps for a clean contribution:
 1. Fork the repository.
 2. Create a topic branch for your change.
 3. Add tests for any new behavior.
-4. Ensure linting and typechecks pass.
+4. Ensure linting and type checks pass.
 5. Open a pull request describing your change.
 
 For small portfolio edits (formatting, README improvements), a direct PR is fine.
@@ -157,19 +157,27 @@ For small portfolio edits (formatting, README improvements), a direct PR is fine
 
 I can implement any of these follow-ups on request.
 
-### License
+#### License
 
-This repository inherits the license in the project root. If you need a specific license (MIT), tell me and I will add or update the `LICENSE` file.
-
-### Contact / Maintainer
-
-**Maintainer:** go-kawser
-
-- **GitHub:** https://github.com/go-kawser
-- **Project:** Advanced TypeScript Mastery Projects
-
-If you'd like the README customized for a specific audience (hiring manager, open-source users, or commercial clients), tell me the target and I will tailor tone, length, and included artifacts accordingly.
+- This project is licensed under the terms of the **[MIT License](./LICENSE)**.
+- You may replace or update the license as needed for client or proprietary projects.
 
 ---
 
-**Thank you for reviewing this project - it's structured to be quick to understand and pleasant to review during interviews or client demos.**
+#### Contact and Maintainer
+
+**Maintainer:** [go-kawser](https://github.com/go-kawser)  
+**Name:** Kawser | Full-Stack Engineer
+
+- **GitHub:** [github.com/go-kawser](https://github.com/go-kawser)
+- **Project:** _Advanced TypeScript Mastery Projects_
+- **Email:** [abu.kayser.official@gmail.com](mailto:abu.kayser.official@gmail.com)
+
+If you’d like this README tailored for a specific purpose - such as **hiring managers**, **open-source contributors**, or **client deliverables** - feel free to request a custom tone or format.
+
+---
+
+**Thank you for reviewing this project!**  
+It’s designed to be **clean, well-structured**, and **pleasant to explore** - perfect for interviews, portfolio showcases, or professional demos.
+
+—
