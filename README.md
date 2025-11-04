@@ -16,7 +16,7 @@ Professional, well-documented repository containing a focused TypeScript demonst
 - [Running the Example](#running-the-example)
 - [How to Read the Code](#how-to-read-the-code)
 - [Recommended Development Workflow](#recommended-development-workflow)
-- [Testing & Validation](#testing--validation)
+- [Testing and Validation](#testing--validation)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact / Maintainer](#contact--maintainer)
@@ -123,7 +123,7 @@ npm i -D typescript ts-node @types/node
 
 These scripts standardize common tasks and make the repo friendlier to evaluators.
 
-### Testing & Validation
+### Testing and Validation
 
 This repository is small and doesn't include a test runner by default. To add tests quickly, use Jest or Vitest.
 
@@ -152,12 +152,12 @@ For small portfolio edits (formatting, README improvements), a direct PR is fine
 
 - Add `package.json` with `build`, `start`, and `test` scripts.
 - Add `tsconfig.json` and a basic ESLint/Prettier setup.
-- Add a simple GitHub Actions workflow that runs `npm ci && npm test` on push.
+- Add a simple GitHub Actions workflow that runs `npm ci andand npm test` on push.
 - Add a small demo GIF or screenshot showing expected output.
 
 I can implement any of these follow-ups on request.
 
-#### License
+### License
 
 - This project is licensed under the terms of the **[MIT License](./LICENSE)**.
 - You may replace or update the license as needed for client or proprietary projects.
@@ -166,11 +166,11 @@ I can implement any of these follow-ups on request.
 
 #### Contact and Maintainer
 
-**Maintainer:** [go-kawser](https://github.com/go-kawser)  
-**Name:** Kawser | Full-Stack Engineer
+**Maintainer:** [md-abu-kayser](https://github.com/md-abu-kayser)  
+**Name:** Md Abu Kayser - Full-Stack Engineer
 
-- **GitHub:** [github.com/go-kawser](https://github.com/go-kawser)
-- **Project:** _Advanced TypeScript Mastery Projects_
+- **GitHub:** [github.com/abu.kayser-official](https://github.com/md-abu-kayser)
+- **Project:** **_Advanced-TypeScript-Mastery-Projects_**
 - **Email:** [abu.kayser.official@gmail.com](mailto:abu.kayser.official@gmail.com)
 
 If you’d like this README tailored for a specific purpose - such as **hiring managers**, **open-source contributors**, or **client deliverables** - feel free to request a custom tone or format.
@@ -180,4 +180,4 @@ If you’d like this README tailored for a specific purpose - such as **hiring m
 **Thank you for reviewing this project!**  
 It’s designed to be **clean, well-structured**, and **pleasant to explore** - perfect for interviews, portfolio showcases, or professional demos.
 
-—
+---
