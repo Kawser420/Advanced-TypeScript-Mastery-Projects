@@ -170,7 +170,7 @@ I can implement any of these follow-ups on request.
 **Name:** Md Abu Kayser - Full-Stack Engineer
 
 - **GitHub:** [github.com/abu.kayser-official](https://github.com/md-abu-kayser)
-- **Project:** **_Advanced-TypeScript-Mastery-Projects_**
+- **Project:** **_advanced-typescript-mastery_**
 - **Email:** [abu.kayser.official@gmail.com](mailto:abu.kayser.official@gmail.com)
 
 If you’d like this README tailored for a specific purpose - such as **hiring managers**, **open-source contributors**, or **client deliverables** - feel free to request a custom tone or format.
