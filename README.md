@@ -60,7 +60,7 @@ If you expand this repository into a fuller project, recommended additions inclu
 
 There are two quick ways to preview the project locally: using Node/TypeScript tooling, or using a static file preview.
 
-1. Using ts-node (one-shot execution of the TypeScript file):
+1. **Using ts-node (one-shot execution of the TypeScript file):**
 
 ```powershell
 npm i -g ts-node typescript
@@ -81,6 +81,13 @@ npx http-server -p 8080 -c-1
 ```
 
 3. Open `index.html` directly in the browser (works if the page only relies on included JS/CSS and not on server-only APIs).
+
+4. **git repo clone:**
+
+```
+git clone https://github.com/md-abu-kayser/advanced-typescript-mastery.git
+
+```
 
 ## Running the Example
 
