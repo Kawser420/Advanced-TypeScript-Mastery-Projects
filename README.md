@@ -56,7 +56,7 @@ If you expand this repository into a fuller project, recommended additions inclu
 
 - `http-server` (for quick local static hosting)
 
-### Quick Start
+## Quick Start
 
 There are two quick ways to preview the project locally: using Node/TypeScript tooling, or using a static file preview.
 
@@ -64,7 +64,12 @@ There are two quick ways to preview the project locally: using Node/TypeScript t
 
 ```powershell
 npm i -g ts-node typescript
+
+```
+
+```
 npx ts-node 100-advanced-ts-problem.ts
+
 ```
 
 2. Compile to JavaScript and open `index.html` in the browser:
@@ -77,7 +82,7 @@ npx http-server -p 8080 -c-1
 
 3. Open `index.html` directly in the browser (works if the page only relies on included JS/CSS and not on server-only APIs).
 
-### Running the Example
+## Running the Example
 
 The repository is intentionally minimal. The file `100-advanced-ts-problem.ts` contains both the implementation and a small example harness. Running it with `ts-node` prints sample output to the console. Compiling with `tsc` and opening `index.html` shows the result in a browser context.
 
@@ -88,7 +93,7 @@ The repository is intentionally minimal. The file `100-advanced-ts-problem.ts` c
 
 **Note:** Because this repository doesn't include a `package.json` by default, the Quick Start uses `npx` so reviewers can run things without modifying the repo.
 
-### How to Read the Code
+## How to Read the Code
 
 **When reviewing `100-advanced-ts-problem.ts`, look for the following:**
 
@@ -99,7 +104,7 @@ The repository is intentionally minimal. The file `100-advanced-ts-problem.ts` c
 
 If you would like, I can split the file into modules (e.g., `src/` + `lib/`) and add a `package.json` with scripts for build/test in a follow-up.
 
-### Recommended Development Workflow
+## Recommended Development Workflow
 
 - **Add a `package.json` and dependencies:**
 
@@ -123,7 +128,7 @@ npm i -D typescript ts-node @types/node
 
 These scripts standardize common tasks and make the repo friendlier to evaluators.
 
-### Testing and Validation
+## Testing and Validation
 
 This repository is small and doesn't include a test runner by default. To add tests quickly, use Jest or Vitest.
 
@@ -138,7 +143,7 @@ Write a few unit tests that import the primary exported `solve` function from `1
 
 ### Contributing
 
-Contributions are welcome. Suggested steps for a clean contribution:
+**Contributions are welcome. Suggested steps for a clean contribution:**
 
 1. Fork the repository.
 2. Create a topic branch for your change.

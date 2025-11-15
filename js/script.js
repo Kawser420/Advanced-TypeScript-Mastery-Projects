@@ -1,4 +1,5 @@
 /* ALL JAVASCRIPT CODE STARTS */
+// --------------------------------------------------------->>>
 // Syntax Highlighting
 hljs.highlightAll();
 
